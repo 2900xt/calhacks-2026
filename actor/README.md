@@ -71,6 +71,14 @@ https://mcp.apify.com?tools=<username>/civicsignal
 
 An agent can call it whenever someone asks "what's coming up in Berkeley about housing?" and answer with cited items.
 
+CivicSignal also runs in **Standby mode** as its own MCP server, with no cold start:
+
+```
+https://<username>--civicsignal.apify.actor/mcp
+```
+
+It exposes two tools: `find_agenda_items` (interests, jurisdictions and days ahead in; ranked, cited matches out) and `list_jurisdictions`. The same Standby server answers plain HTTP too: `GET /scan?interests=housing|bike lanes&jurisdictions=berkeley,oakland`.
+
 ## Pricing
 
 Pay per event:

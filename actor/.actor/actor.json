@@ -11,5 +11,7 @@
     },
     "dockerfile": "../Dockerfile",
     "readme": "../README.md",
+    "usesStandbyMode": true,
+    "webServerMcpPath": "/mcp",
     "environmentVariables": {}
 }

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { AgendaMatch } from "@/lib/civic";
 import { JURISDICTIONS } from "@/lib/civic-shared";
+import { downloadIcs } from "@/lib/ics";
 
 type ScanResult = {
   runUrl: string | null;
@@ -263,6 +264,14 @@ export default function Home() {
                   )}
                 </p>
               </div>
+              {scan.items.length > 0 && (
+                <button
+                  onClick={() => downloadIcs(scan.items)}
+                  className="rounded-xl border border-line bg-surface px-3 py-2 text-sm hover:border-accent"
+                >
+                  📅 Add meetings to calendar
+                </button>
+              )}
             </div>
 
             {interestCounts.length > 1 && (
@@ -299,8 +308,9 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-              <aside className="lg:sticky lg:top-6 lg:self-start">
+              <aside className="space-y-4 lg:sticky lg:top-6 lg:self-start">
                 <WatchPanel interests={interests} cities={cities} disabled={!!scan.demo} />
+                <ConnectPanel />
               </aside>
             </div>
           </section>
@@ -588,6 +598,42 @@ function AgentPanel({ interests, cities }: { interests: string[]; cities: string
         )}
       </div>
     </section>
+  );
+}
+
+function ConnectPanel() {
+  const actor = process.env.NEXT_PUBLIC_APIFY_ACTOR_ID ?? "<username>/civicsignal";
+  const [user, name] = actor.split("/");
+  const endpoints = [
+    { label: "Apify MCP server", url: `https://mcp.apify.com?tools=${actor}` },
+    { label: "CivicSignal's own MCP (Standby)", url: `https://${user}--${name}.apify.actor/mcp` },
+  ];
+  const [copied, setCopied] = useState<string | null>(null);
+
+  return (
+    <div className="rounded-2xl border border-line bg-surface p-5">
+      <h3 className="font-semibold">Use it from your own agent</h3>
+      <p className="mt-1 text-sm text-muted">
+        CivicSignal is an MCP tool. Add either endpoint to Claude, Cursor or any MCP client.
+      </p>
+      <ul className="mt-3 space-y-2">
+        {endpoints.map((e) => (
+          <li key={e.url}>
+            <p className="text-xs text-muted">{e.label}</p>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(e.url);
+                setCopied(e.url);
+              }}
+              className="mt-1 w-full truncate rounded-lg border border-line bg-background px-2 py-1.5 text-left font-mono text-xs hover:border-accent"
+              title="Copy"
+            >
+              {copied === e.url ? "Copied ✓" : e.url}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
