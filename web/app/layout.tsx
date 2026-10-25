@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "BeInvolved",
-  description: "Know what your city council will decide, before the vote.",
+  description: "Your city decides things every week. Find the decisions that affect you and have a say.",
 };
 
 export default function RootLayout({
