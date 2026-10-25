@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { AgendaMatch } from "@/lib/civic";
 import { COMMENT_EMAIL, JURISDICTIONS, TOPICS } from "@/lib/civic-shared";
 import { downloadIcs } from "@/lib/ics";
+import { MapExplorer } from "./map-explorer";
 
 type ScanResult = {
   runUrl: string | null;
@@ -73,7 +74,8 @@ export default function Home() {
     setDone((d) => ({ ...d, [itemId]: d[itemId]?.includes(step) ? d[itemId] : [...(d[itemId] ?? []), step] }));
   }
 
-  async function findWays() {
+  async function findWays(only?: string[]) {
+    const jurisdictions = only ?? cities;
     setScanning(true);
     setError(null);
     setShowAll(false);
@@ -81,7 +83,7 @@ export default function Home() {
       const res = await fetch("/api/scan", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ interests: topics, jurisdictions: cities }),
+        body: JSON.stringify({ interests: topics, jurisdictions }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
@@ -115,22 +117,30 @@ export default function Home() {
       </nav>
 
       <main className="mx-auto max-w-5xl px-4 pb-16 sm:px-6">
-        <header className="py-12 sm:py-16">
-          <h1 className="font-serif max-w-3xl text-4xl font-medium leading-[1.08] tracking-tight sm:text-6xl">
+        <header className="pb-8 pt-10 sm:pt-12">
+          <h1 className="font-serif max-w-3xl text-4xl font-medium leading-[1.08] tracking-tight sm:text-5xl">
             Your city decides things every week. <span className="text-accent">Have a say.</span>
           </h1>
-          <p className="mt-5 max-w-2xl text-lg text-muted">
-            BeInvolved finds the upcoming city council decisions that affect you, then walks you through showing up,
-            speaking up, and staying in the loop.
+          <p className="mt-4 max-w-2xl text-lg text-muted">
+            Find out who represents you, from city hall to Congress, and what they&apos;re deciding next.
           </p>
-          <ol className="mt-8 grid max-w-3xl gap-3 sm:grid-cols-3">
-            <Pillar icon="📍" title="Show up" body="Know when it's decided, and add the meeting to your calendar." />
-            <Pillar icon="🎤" title="Speak up" body="Draft a public comment in your own words and send it to the clerk." />
-            <Pillar icon="📬" title="Stay in the loop" body="Get a weekly email when your topics come up again." />
-          </ol>
         </header>
 
-        <section className="rounded-xl border border-line bg-surface p-5 sm:p-8">
+        <MapExplorer
+          onExplore={(id) => {
+            setCities([id]);
+            document.getElementById("find")?.scrollIntoView({ behavior: "smooth" });
+            findWays([id]);
+          }}
+        />
+
+        <ol className="mt-10 grid gap-3 sm:grid-cols-3">
+          <Pillar icon="📍" title="Show up" body="Know when it's decided, and add the meeting to your calendar." />
+          <Pillar icon="🎤" title="Speak up" body="Draft a public comment in your own words and send it to the clerk." />
+          <Pillar icon="📬" title="Stay in the loop" body="Get a weekly email when your topics come up again." />
+        </ol>
+
+        <section id="find" className="mt-8 scroll-mt-6 rounded-xl border border-line bg-surface p-5 sm:p-8">
           <Label n={1}>Where do you live?</Label>
           <div className="mt-3 flex flex-wrap gap-2">
             {JURISDICTIONS.map((j) => (
@@ -171,7 +181,7 @@ export default function Home() {
           </div>
 
           <button
-            onClick={findWays}
+            onClick={() => findWays()}
             disabled={scanning || !topics.length || !cities.length}
             className="mt-8 w-full rounded-lg bg-accent px-5 py-4 text-base font-semibold text-surface transition hover:opacity-90 disabled:opacity-50 sm:w-auto"
           >

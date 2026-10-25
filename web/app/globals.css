@@ -35,3 +35,8 @@ body {
   color: var(--foreground);
   font-family: var(--font-mona-sans), -apple-system, "Segoe UI", sans-serif;
 }
+
+@keyframes fadein {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
