@@ -134,11 +134,6 @@ export default function Home() {
           }}
         />
 
-        <ol className="mt-10 grid gap-3 sm:grid-cols-3">
-          <Pillar icon="📍" title="Show up" body="Know when it's decided, and add the meeting to your calendar." />
-          <Pillar icon="🎤" title="Speak up" body="Draft a public comment in your own words and send it to the clerk." />
-          <Pillar icon="📬" title="Stay in the loop" body="Get a weekly email when your topics come up again." />
-        </ol>
 
         <section id="find" className="mt-8 scroll-mt-6 rounded-xl border border-line bg-surface p-5 sm:p-8">
           <Label n={1}>Where do you live?</Label>
@@ -451,7 +446,9 @@ function WatchSection({ interests, cities, live }: { interests: string[]; cities
     <section id="alerts" className="mt-16 scroll-mt-6 rounded-xl border border-line bg-surface p-6 sm:p-8">
       <div className="grid gap-6 md:grid-cols-[1fr_1fr] md:items-center">
         <div>
-          <h2 className="font-serif text-2xl font-medium tracking-tight">📬 Never miss a vote on what you care about</h2>
+          <h2 className="font-serif flex items-center gap-2.5 text-2xl font-medium tracking-tight">
+            <Icon name="bell" /> Never miss a vote on what you care about
+          </h2>
           <p className="mt-2 text-sm text-muted">
             We&apos;ll check your city&apos;s agendas on a schedule and email you the decisions coming up, with the date
             and how to comment.
@@ -532,7 +529,9 @@ function AgentSection({ interests, cities }: { interests: string[]; cities: stri
 
   return (
     <section id="ask" className="mt-8 scroll-mt-6 rounded-xl border border-line bg-surface p-6 sm:p-8">
-      <h2 className="font-serif text-2xl font-medium tracking-tight">💬 Ask about your city</h2>
+      <h2 className="font-serif flex items-center gap-2.5 text-2xl font-medium tracking-tight">
+        <Icon name="chat" /> Ask about your city
+      </h2>
       <p className="mt-2 text-sm text-muted">
         Ask in plain English. The assistant reads the latest agendas and staff reports and answers with sources.
       </p>
@@ -649,14 +648,20 @@ function Chip({ on, onClick, children }: { on: boolean; onClick: () => void; chi
   );
 }
 
-function Pillar({ icon, title, body }: { icon: string; title: string; body: string }) {
+function Icon({ name }: { name: "bell" | "chat" }) {
   return (
-    <li className="rounded-lg border border-line bg-surface p-4">
-      <p className="text-sm font-semibold">
-        {icon} {title}
-      </p>
-      <p className="mt-1 text-xs leading-relaxed text-muted">{body}</p>
-    </li>
+    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-accent-soft text-accent">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+        {name === "bell" ? (
+          <>
+            <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+            <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+          </>
+        ) : (
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        )}
+      </svg>
+    </span>
   );
 }
 

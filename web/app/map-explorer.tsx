@@ -5,6 +5,7 @@ import { select } from "d3-selection";
 import "d3-transition";
 import { zoomIdentity } from "d3-zoom";
 import { useEffect, useMemo, useRef, useState } from "react";
+import type { CivicEvent } from "./api/events/route";
 import { feature } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 import us from "us-atlas/counties-albers-10m.json";
@@ -242,11 +243,13 @@ function LevelPanel({ level, city, onExplore }: { level: Level; city: City | nul
         officials={[city.rep, ...CALIFORNIA.officials.slice(1)]}
         issues={COUNTY_ISSUES[city.countyFips] ?? []}
       >
+        <Events cityId={city.id} cityName={city.name} />
         <p className="text-xs text-muted">Your House member votes on federal laws; your senators represent all of California.</p>
       </Panel>
     );
   return (
     <Panel kicker={`City · ${city.county}`} title={city.name} officials={[...city.local, city.rep]} issues={city.issues}>
+      <Events cityId={city.id} cityName={city.name} />
       <button
         onClick={() => onExplore(city.id)}
         className="mt-1 w-full rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-white hover:opacity-90"
@@ -302,6 +305,58 @@ function Panel({
       )}
       {callout && <p className="mt-5 rounded-lg bg-soft p-3 text-xs leading-relaxed">{callout}</p>}
       <div className="mt-5">{children}</div>
+    </div>
+  );
+}
+
+function Events({ cityId, cityName }: { cityId: string; cityName: string }) {
+  const [events, setEvents] = useState<CivicEvent[] | null>(null);
+  useEffect(() => {
+    let live = true;
+    setEvents(null);
+    fetch(`/api/events?city=${cityId}`)
+      .then((r) => r.json())
+      .then((d) => live && setEvents(d.events ?? []))
+      .catch(() => live && setEvents([]));
+    return () => {
+      live = false;
+    };
+  }, [cityId]);
+
+  return (
+    <div className="mb-5">
+      <p className="text-[11px] font-semibold uppercase tracking-wider text-muted">Upcoming meetings you can attend</p>
+      {events === null && <p className="mt-2 text-xs text-muted">Checking {cityName}&apos;s meeting calendar…</p>}
+      {events?.length === 0 && <p className="mt-2 text-xs text-muted">No upcoming meetings posted yet.</p>}
+      <ul className="mt-2 space-y-2">
+        {events?.map((e) => (
+          <li key={`${e.date}${e.name}`} className="flex gap-3 rounded-lg border border-line p-2.5">
+            <div className="w-11 shrink-0 text-center leading-tight">
+              <p className="text-[10px] font-semibold uppercase text-accent">
+                {new Date(e.date + "T12:00:00").toLocaleDateString(undefined, { month: "short" })}
+              </p>
+              <p className="font-serif text-xl">{Number(e.date.slice(8, 10))}</p>
+            </div>
+            <div className="min-w-0 text-xs">
+              <p className="font-medium text-foreground">
+                {e.url ? (
+                  <a href={e.url} target="_blank" rel="noreferrer" className="hover:text-accent hover:underline">
+                    {e.name} ↗
+                  </a>
+                ) : (
+                  e.name
+                )}
+              </p>
+              <p className="mt-0.5 text-muted">
+                {new Date(e.date + "T12:00:00").toLocaleDateString(undefined, { weekday: "long" })}
+                {e.time ? ` · ${e.time}` : ""}
+              </p>
+              {e.location && <p className="truncate text-muted">{e.location}</p>}
+            </div>
+          </li>
+        ))}
+      </ul>
+      <p className="mt-2 text-[11px] text-muted">Open to the public. Most also take comments in person or on Zoom.</p>
     </div>
   );
 }
