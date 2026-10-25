@@ -1,5 +1,5 @@
 const FEATURES = [
-  { name: "Custom Actor", detail: "civicsignal, Python + httpx + BeautifulSoup, published with input and dataset schemas" },
+  { name: "Custom Actor", detail: "beinvolved, Python + httpx + BeautifulSoup, published with input and dataset schemas" },
   { name: "Standby mode", detail: "Always-on HTTP API and its own MCP server at /mcp, no cold start" },
   { name: "Datasets", detail: "One normalized row per agenda item, with a table view for the Console" },
   { name: "Key-value store", detail: "OUTPUT record with a Markdown digest agents can read directly" },
@@ -14,12 +14,12 @@ export function UnderTheHood() {
     <section className="mt-14">
       <h2 className="text-2xl font-semibold tracking-tight">Under the hood</h2>
       <p className="mt-1 max-w-2xl text-sm text-muted">
-        Government agendas are scattered across platforms that were never built to be read together. CivicSignal turns
+        Government agendas are scattered across platforms that were never built to be read together. BeInvolved turns
         them into one stream that agents can call, built entirely on Apify.
       </p>
 
       <div className="mt-6 overflow-x-auto rounded-3xl border border-line bg-surface p-5 sm:p-7">
-        <svg viewBox="0 0 880 250" className="min-w-[640px] w-full" role="img" aria-label="CivicSignal architecture">
+        <svg viewBox="0 0 880 250" className="min-w-[640px] w-full" role="img" aria-label="BeInvolved architecture">
           <defs>
             <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
               <path d="M0 0L10 5L0 10z" className="fill-muted" />
@@ -31,7 +31,7 @@ export function UnderTheHood() {
           <Box x={10} y={170} w={170} h={50} title="Staff report PDFs" sub="linked per item" muted />
           {/* actor */}
           <rect x={240} y={20} width={250} height={210} rx={16} className="fill-accent-soft stroke-accent" strokeWidth={1.5} />
-          <text x={258} y={46} className="fill-accent text-[13px] font-semibold">CivicSignal Actor (Apify)</text>
+          <text x={258} y={46} className="fill-accent text-[13px] font-semibold">BeInvolved Actor (Apify)</text>
           <Box x={258} y={60} w={214} h={44} title="Adapters → one schema" />
           <Box x={258} y={114} w={214} h={44} title="Claude relevance scoring" />
           <Box x={258} y={168} w={102} h={44} title="Dataset" />

@@ -31,7 +31,7 @@ export type ScanInput = {
 
 export function actorId(): string {
   const id = process.env.APIFY_ACTOR_ID;
-  if (!id) throw new Error("Set APIFY_ACTOR_ID (e.g. yourname/civicsignal) in web/.env.local");
+  if (!id) throw new Error("Set APIFY_ACTOR_ID (e.g. yourname/beinvolved) in web/.env.local");
   return id;
 }
 
@@ -41,7 +41,7 @@ export function apify(): ApifyClient {
   return new ApifyClient({ token });
 }
 
-/** Runs the CivicSignal Actor on Apify and returns its matches plus the digest it saved. */
+/** Runs the BeInvolved Actor on Apify and returns its matches plus the digest it saved. */
 export async function runScan(input: ScanInput) {
   const client = apify();
   const run = await client.actor(actorId()).call(

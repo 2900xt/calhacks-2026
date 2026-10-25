@@ -1,5 +1,5 @@
 {
-    "title": "CivicSignal input",
+    "title": "BeInvolved input",
     "type": "object",
     "schemaVersion": 1,
     "properties": {
@@ -79,6 +79,7 @@
         },
         "anthropicApiKey": {
             "title": "Anthropic API key (optional)",
+            "isSecret": true,
             "type": "string",
             "description": "Use your own Anthropic key for Claude scoring. Without a key the Actor uses its configured key, or falls back to keyword matching.",
             "editor": "textfield",

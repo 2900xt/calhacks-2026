@@ -1,4 +1,4 @@
-"""CivicSignal: watch local-government agendas and surface the items a resident cares about."""
+"""BeInvolved: watch local-government agendas and surface the items a resident cares about."""
 
 from __future__ import annotations
 
@@ -25,7 +25,7 @@ PRESETS: dict[str, tuple[str, str]] = {
     'sunnyvaleca': ('legistar', 'City of Sunnyvale'),
 }
 
-USER_AGENT = 'CivicSignal/1.0 (Apify Actor; civic agenda monitor; +https://github.com/2900xt/calhacks-2026)'
+USER_AGENT = 'BeInvolved/1.0 (Apify Actor; civic agenda monitor; +https://github.com/2900xt/calhacks-2026)'
 
 
 @dataclass
@@ -143,7 +143,7 @@ async def main() -> None:
             # Actor-to-Actor: hand the digest to Apify's official mailer instead of running our own SMTP.
             await Actor.start('apify/send-mail', run_input={
                 'to': alert_email,
-                'subject': f'CivicSignal: {len(result.matches)} upcoming agenda items match your interests',
+                'subject': f'BeInvolved: {len(result.matches)} upcoming agenda items match your interests',
                 'html': digest_html(result.matches),
             })
             Actor.log.info(f'Alert email queued for {len(result.matches)} matches')
@@ -156,7 +156,7 @@ async def main() -> None:
 def digest_markdown(matches: list[dict], interests: list[str]) -> str:
     if not matches:
         return 'Nothing on upcoming agendas matches: ' + '; '.join(interests)
-    lines = [f'# CivicSignal digest — {len(matches)} items to watch', '']
+    lines = [f'# BeInvolved digest — {len(matches)} items to watch', '']
     for r in matches[:15]:
         lines.append(
             f"- **{r['jurisdictionName']} · {r['body']} · {r['meetingDate']}** — {r['plainSummary'] or r['title']} "
@@ -177,6 +177,6 @@ def digest_html(matches: list[dict]) -> str:
     return (
         "<div style='font-family:system-ui,sans-serif;max-width:640px'>"
         f"<h2 style='margin:0 0 4px'>{len(matches)} agenda items to watch</h2>"
-        "<p style='color:#666;margin:0 0 16px'>From CivicSignal, your local government agenda monitor.</p>"
+        "<p style='color:#666;margin:0 0 16px'>From BeInvolved, your local government agenda monitor.</p>"
         f"<ol style='padding-left:18px'>{''.join(rows)}</ol></div>"
     )

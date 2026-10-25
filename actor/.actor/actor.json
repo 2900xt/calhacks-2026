@@ -1,7 +1,7 @@
 {
     "actorSpecification": 1,
-    "name": "civicsignal",
-    "title": "CivicSignal: Local Government Agenda Monitor",
+    "name": "beinvolved",
+    "title": "BeInvolved: Local Government Agenda Monitor",
     "description": "Watches city council agendas across platforms (Legistar and Berkeley eAgenda), normalizes every item into one schema, and uses Claude to flag the items that match a resident's plain-English interests before the vote.",
     "version": "1.0",
     "buildTag": "latest",

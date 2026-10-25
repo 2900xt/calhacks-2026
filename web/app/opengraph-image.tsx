@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "CivicSignal: know what your city will decide, before the vote";
+export const alt = "BeInvolved: know what your city will decide, before the vote";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -42,7 +42,7 @@ export default function OpengraphImage() {
             >
               C
             </div>
-            <div style={{ fontSize: 34, fontWeight: 700 }}>CivicSignal</div>
+            <div style={{ fontSize: 34, fontWeight: 700 }}>BeInvolved</div>
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <div style={{ fontSize: 60, fontWeight: 700, lineHeight: 1.08, letterSpacing: -1.5 }}>
