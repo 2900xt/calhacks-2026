@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Fragment_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Sequoia's site uses Pitch Sans (a licensed Klim typeface) with Fragment Mono; Space Grotesk is the closest free match.
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const fragmentMono = Fragment_Mono({
+  variable: "--font-fragment-mono",
+  weight: "400",
   subsets: ["latin"],
 });
 
@@ -25,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${spaceGrotesk.variable} ${fragmentMono.variable} antialiased`}
       >
         {children}
       </body>

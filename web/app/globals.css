@@ -1,29 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f7f6f2;
-  --surface: #ffffff;
-  --foreground: #1c1b19;
-  --muted: #6b6860;
-  --line: #e4e1d8;
-  --accent: #1f5f4a;
-  --accent-soft: #e3efe9;
-  --warn: #9a5b00;
-  --warn-soft: #fbf0dc;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #121311;
-    --surface: #1b1c1a;
-    --foreground: #ecebe6;
-    --muted: #a19e95;
-    --line: #2e2f2b;
-    --accent: #7cc4a6;
-    --accent-soft: #1d2c25;
-    --warn: #e6b45e;
-    --warn-soft: #2d2517;
-  }
+  /* Sequoia Capital palette: cream paper, warm near-black ink, Sequoia green */
+  --background: #fbf7f0;
+  --surface: #fefcf6;
+  --foreground: #1b1917;
+  --muted: #6f6c66;
+  --line: #e4ded2;
+  --accent: #007354;
+  --accent-soft: #e2efe8;
+  --warn: #c74200;
+  --warn-soft: #fbeadf;
 }
 
 @theme inline {
@@ -36,12 +23,12 @@
   --color-accent-soft: var(--accent-soft);
   --color-warn: var(--warn);
   --color-warn-soft: var(--warn-soft);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-space-grotesk);
+  --font-mono: var(--font-fragment-mono);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
 }
