@@ -27,10 +27,14 @@ export function MapExplorer({
   onExplore,
   entered,
   onEnter,
+  focusCity,
+  onFocus,
 }: {
   onExplore: (cityId: string) => void;
   entered: boolean;
-  onEnter: () => void;
+  onEnter: (cityId?: string) => void;
+  focusCity?: string | null;
+  onFocus?: (cityId: string) => void;
 }) {
   const topo = us as unknown as Topology<{
     states: GeometryCollection<{ name: string }>;
@@ -90,6 +94,12 @@ export function MapExplorer({
     setLevel("city");
   }
 
+  // The page map follows the city chosen on the intro screen.
+  useEffect(() => {
+    if (focusCity) pickCity(focusCity);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [focusCity]);
+
   function clickState(f: Feature) {
     setNotice(null);
     setStateFips(f.id);
@@ -116,8 +126,9 @@ export function MapExplorer({
     const d = Math.round(miles(nearest));
     setFound(d > 15 ? `Closest city on BeInvolved to ${label}: ${nearest.name} (${d} mi away)` : null);
     setFlying(true);
+    onFocus?.(nearest.id);
     pickCity(nearest.id);
-    setTimeout(onEnter, 1300);
+    setTimeout(() => onEnter(nearest.id), 1000);
   }
 
   async function search() {
@@ -193,7 +204,7 @@ export function MapExplorer({
           </div>
           <button
             type="button"
-            onClick={onEnter}
+            onClick={() => onEnter()}
             className="pointer-events-auto mt-5 text-sm text-muted hover:text-foreground"
           >
             Skip and explore the map →

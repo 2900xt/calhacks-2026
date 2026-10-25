@@ -45,6 +45,8 @@ export default function Home() {
   const [showAll, setShowAll] = useState(false);
   const [done, setDone] = useState<Record<string, Step[]>>({});
   const [entered, setEntered] = useState(false);
+  const [leaving, setLeaving] = useState(false);
+  const [focusCity, setFocusCity] = useState<string | null>(null);
 
   useEffect(() => {
     if (!scanning) return;
@@ -99,6 +101,26 @@ export default function Home() {
 
   return (
     <div className={entered ? "min-h-screen" : "h-screen overflow-hidden"}>
+      {!entered && (
+        <div
+          className={`fixed inset-0 z-50 transition-all duration-700 ease-out ${
+            leaving ? "pointer-events-none scale-[1.04] opacity-0" : ""
+          }`}
+        >
+          <MapExplorer
+            entered={false}
+            onExplore={() => {}}
+            onFocus={setFocusCity}
+            onEnter={(id) => {
+              // The page map underneath zooms to the same city while the intro fades away.
+              if (id) setFocusCity(id);
+              window.scrollTo({ top: 0 });
+              setLeaving(true);
+              setTimeout(() => setEntered(true), 700);
+            }}
+          />
+        </div>
+      )}
       <nav className="border-b border-line bg-surface/70 backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center gap-3 px-4 py-3 sm:px-6">
           <Logo />
@@ -128,11 +150,9 @@ export default function Home() {
         </header>
 
         <MapExplorer
-          entered={entered}
-          onEnter={() => {
-            setEntered(true);
-            window.scrollTo({ top: 0 });
-          }}
+          entered
+          onEnter={() => {}}
+          focusCity={focusCity}
           onExplore={(id) => {
             setCities([id]);
             document.getElementById("find")?.scrollIntoView({ behavior: "smooth" });
