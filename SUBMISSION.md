@@ -91,4 +91,4 @@ apify, apify-sdk-python, apify-client, apify-mcp, python, httpx, beautifulsoup, 
 - [ ] Web app deployed (Vercel) with `APIFY_TOKEN`, `APIFY_ACTOR_ID`, `NEXT_PUBLIC_APIFY_ACTOR_ID` and `ANTHROPIC_API_KEY`
 - [ ] Replace the sample-data fixture (`web/lib/sample.json`) with a Claude-scored run
 - [ ] Record the demo video (sponsors may judge from the video alone)
-- [ ] Devpost: project image, GitHub link, tracks selected, Atlassian "Best Agent" named in the description
+- [ ] Devpost: project image (`docs/cover.png`), GitHub link, tracks selected, Atlassian "Best Agent" named in the description
