@@ -44,6 +44,7 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [showAll, setShowAll] = useState(false);
   const [done, setDone] = useState<Record<string, Step[]>>({});
+  const [entered, setEntered] = useState(false);
 
   useEffect(() => {
     if (!scanning) return;
@@ -97,7 +98,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className={entered ? "min-h-screen" : "h-screen overflow-hidden"}>
       <nav className="border-b border-line bg-surface/70 backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center gap-3 px-4 py-3 sm:px-6">
           <Logo />
@@ -127,6 +128,11 @@ export default function Home() {
         </header>
 
         <MapExplorer
+          entered={entered}
+          onEnter={() => {
+            setEntered(true);
+            window.scrollTo({ top: 0 });
+          }}
           onExplore={(id) => {
             setCities([id]);
             document.getElementById("find")?.scrollIntoView({ behavior: "smooth" });

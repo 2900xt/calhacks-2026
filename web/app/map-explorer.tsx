@@ -23,7 +23,15 @@ type Feature = GeoJSON.Feature<GeoJSON.Geometry, { name: string }> & { id: strin
 
 const LEVELS: Level[] = ["nation", "state", "district", "city"];
 
-export function MapExplorer({ onExplore }: { onExplore: (cityId: string) => void }) {
+export function MapExplorer({
+  onExplore,
+  entered,
+  onEnter,
+}: {
+  onExplore: (cityId: string) => void;
+  entered: boolean;
+  onEnter: () => void;
+}) {
   const topo = us as unknown as Topology<{
     states: GeometryCollection<{ name: string }>;
     counties: GeometryCollection<{ name: string }>;
@@ -89,16 +97,114 @@ export function MapExplorer({ onExplore }: { onExplore: (cityId: string) => void
     setLevel("state");
   }
 
+  const [query, setQuery] = useState("");
+  const [locating, setLocating] = useState(false);
+  const [found, setFound] = useState<string | null>(null);
+  const [flying, setFlying] = useState(false);
+
+  // Snap any place in the U.S. to the nearest city BeInvolved covers, then zoom there and open the site.
+  function locate(lat: number, lon: number, label: string) {
+    const miles = (c: City) => {
+      const [lo, la] = c.lonlat;
+      const rad = Math.PI / 180;
+      const a =
+        Math.sin(((la - lat) * rad) / 2) ** 2 +
+        Math.cos(lat * rad) * Math.cos(la * rad) * Math.sin(((lo - lon) * rad) / 2) ** 2;
+      return 7918 * Math.asin(Math.sqrt(a));
+    };
+    const nearest = [...CITIES].sort((a, b) => miles(a) - miles(b))[0];
+    const d = Math.round(miles(nearest));
+    setFound(d > 15 ? `Closest city on BeInvolved to ${label}: ${nearest.name} (${d} mi away)` : null);
+    setFlying(true);
+    pickCity(nearest.id);
+    setTimeout(onEnter, 1300);
+  }
+
+  async function search() {
+    if (!query.trim()) return;
+    setLocating(true);
+    setNotice(null);
+    try {
+      const res = await fetch(`/api/geocode?q=${encodeURIComponent(query)}`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      locate(data.lat, data.lon, data.label);
+    } catch (e) {
+      setNotice((e as Error).message);
+    } finally {
+      setLocating(false);
+    }
+  }
+
+  function useMyLocation() {
+    if (!navigator.geolocation) return setNotice("Your browser can't share location. Type your city instead.");
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      (p) => {
+        setLocating(false);
+        locate(p.coords.latitude, p.coords.longitude, "you");
+      },
+      () => {
+        setLocating(false);
+        setNotice("Location was blocked. Type your city or ZIP instead.");
+      },
+    );
+  }
+
   const available = (l: Level) => l === "nation" || l === "state" || (l === "district" ? !!city?.countyFips : !!city);
   const r = 9 / k; // same on-screen size at every zoom level
 
   return (
-    <section className="relative overflow-hidden rounded-xl border border-line bg-[#f4f1ea]">
-      <div className="grid lg:grid-cols-[1fr_340px]">
+    <section
+      className={`overflow-hidden bg-[#f4f1ea] ${
+        entered ? "relative rounded-xl border border-line" : "fixed inset-0 z-50"
+      }`}
+    >
+      {!entered && (
+        <div className={`pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center px-4 transition-opacity duration-500 ${flying ? "opacity-0" : ""}`}>
+          <div className="pointer-events-auto w-full max-w-xl rounded-2xl border border-line bg-white/95 p-6 text-center shadow-xl backdrop-blur sm:p-8">
+            <p className="font-serif text-4xl leading-tight sm:text-5xl">Where do you live?</p>
+            <p className="mt-2 text-muted">See who represents you and what your city is about to decide.</p>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                search();
+              }}
+              className="mt-6 flex gap-2"
+            >
+              <input
+                autoFocus
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="City, address or ZIP code"
+                className="min-w-0 flex-1 rounded-xl border border-line px-4 py-3 text-base outline-none focus:border-accent"
+              />
+              <button
+                disabled={locating}
+                className="rounded-xl bg-accent px-5 py-3 font-semibold text-white hover:opacity-90 disabled:opacity-60"
+              >
+                {locating ? "Finding…" : "Go"}
+              </button>
+            </form>
+            <button type="button" onClick={useMyLocation} className="mt-3 text-sm text-accent hover:underline">
+              Use my current location
+            </button>
+            {notice && <p className="mt-3 text-sm text-warn">{notice}</p>}
+          </div>
+          <button
+            type="button"
+            onClick={onEnter}
+            className="pointer-events-auto mt-5 text-sm text-muted hover:text-foreground"
+          >
+            Skip and explore the map →
+          </button>
+        </div>
+      )}
+      <div className={`grid ${entered ? "lg:grid-cols-[1fr_340px]" : ""}`}>
         <div className="relative">
-          <div className="pointer-events-none absolute left-5 top-5 z-10 max-w-sm">
-            <p className="font-serif text-2xl leading-tight sm:text-3xl">Where in the U.S. do you live?</p>
-            <p className="mt-1 text-sm text-muted">Pick your city, or click your state on the map.</p>
+          <div className={`pointer-events-none absolute left-5 top-5 z-10 max-w-sm ${entered ? "" : "hidden"}`}>
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-muted">Your city</p>
+            {found && <p className="mt-1 max-w-xs text-xs text-muted">{found}</p>}
             <select
               value={city?.id ?? ""}
               onChange={(e) => pickCity(e.target.value)}
@@ -115,7 +221,7 @@ export function MapExplorer({ onExplore }: { onExplore: (cityId: string) => void
             </select>
           </div>
 
-          <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} className="block h-[420px] w-full sm:h-[520px]" role="img" aria-label="Map of the United States">
+          <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} className={`block w-full transition-[height] duration-700 ${entered ? "h-[420px] sm:h-[520px]" : "h-[100svh]"}`} role="img" aria-label="Map of the United States">
             <g ref={gRef}>
               {states.map((s) => {
                 const covered = statesWithCities.has(s.properties.name);
@@ -190,11 +296,11 @@ export function MapExplorer({ onExplore }: { onExplore: (cityId: string) => void
           {hover && (
             <span className="pointer-events-none absolute bottom-16 left-5 rounded bg-white/90 px-2 py-1 text-xs shadow">{hover}</span>
           )}
-          {notice && (
+          {notice && entered && (
             <p className="absolute bottom-16 right-5 max-w-xs rounded-lg bg-white px-3 py-2 text-xs text-muted shadow">{notice}</p>
           )}
 
-          <nav className="absolute bottom-4 left-5 right-5 flex flex-wrap gap-1.5" aria-label="Zoom level">
+          <nav className={`absolute bottom-4 left-5 right-5 flex flex-wrap gap-1.5 ${entered ? "" : "hidden"}`} aria-label="Zoom level">
             {LEVELS.map((l) => (
               <button
                 key={l}
@@ -213,7 +319,7 @@ export function MapExplorer({ onExplore }: { onExplore: (cityId: string) => void
           </nav>
         </div>
 
-        <aside className="border-t border-line bg-white p-5 lg:border-l lg:border-t-0">
+        <aside className={`border-t border-line bg-white p-5 lg:border-l lg:border-t-0 ${entered ? "animate-[fadein_.5s_ease]" : "hidden"}`}>
           <LevelPanel level={level} city={city} stateName={usState.properties.name} stateCities={stateCities} onPick={pickCity} onExplore={onExplore} />
         </aside>
       </div>
@@ -437,7 +543,7 @@ function abbr(state: string) {
 }
 
 function levelLabel(l: Level, city: City | null, stateName: string) {
-  if (l === "nation") return "🇺🇸 National";
+  if (l === "nation") return "National";
   if (l === "state") return stateName;
   if (l === "district") return city?.county ? `${city.district} · ${city.county.replace(" County", "")}` : "District";
   return city ? city.name : "City";
