@@ -71,6 +71,12 @@
             "description": "Also write the items below the relevance threshold to the dataset (not charged as matches).",
             "default": false
         },
+        "alertEmail": {
+            "title": "Email alerts to",
+            "type": "string",
+            "description": "If set, matches are emailed here through the apify/send-mail Actor. Pair with a Schedule to get a weekly digest.",
+            "editor": "textfield"
+        },
         "anthropicApiKey": {
             "title": "Anthropic API key (optional)",
             "type": "string",

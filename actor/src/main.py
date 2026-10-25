@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import os
+from html import escape
 from datetime import date, timedelta
 
 import httpx
@@ -107,14 +108,25 @@ async def main() -> None:
             if rest:
                 await Actor.push_data(rest)
 
+        digest = _digest(matches, interests)
         await Actor.set_value('OUTPUT', {
             'interests': interests,
             'window': {'from': start.isoformat(), 'to': end.isoformat()},
             'itemsScanned': len(records),
             'matchCount': len(matches),
-            'digest': _digest(matches, interests),
+            'digest': digest,
             'matches': matches[:25],
         })
+
+        alert_email = (inp.get('alertEmail') or '').strip()
+        if alert_email and matches:
+            # Actor-to-Actor: hand the digest to Apify's official mailer instead of running our own SMTP.
+            await Actor.start('apify/send-mail', run_input={
+                'to': alert_email,
+                'subject': f'CivicSignal: {len(matches)} upcoming agenda items match your interests',
+                'html': _digest_html(matches),
+            })
+            Actor.log.info(f'Alert email queued for {len(matches)} matches')
         await Actor.set_status_message(f'Done: {len(matches)} of {len(records)} agenda items match your interests')
 
 
@@ -128,3 +140,20 @@ def _digest(matches: list[dict], interests: list[str]) -> str:
             f"({r['actionType']}, relevance {r['relevance']}). {r['reason']} [Source]({r['documentUrl'] or r['agendaUrl']})"
         )
     return '\n'.join(lines)
+
+
+def _digest_html(matches: list[dict]) -> str:
+    rows = []
+    for r in matches[:15]:
+        src = escape(r['documentUrl'] or r['agendaUrl'] or '')
+        rows.append(
+            f"<li style='margin-bottom:14px'><b>{escape(r['plainSummary'] or r['title'])}</b><br>"
+            f"<span style='color:#666'>{escape(r['jurisdictionName'])} · {escape(r['body'])} · {escape(r['meetingDate'])}"
+            f" · {escape(str(r['actionType']))}</span><br>{escape(r['reason'] or '')} <a href='{src}'>Staff report</a></li>"
+        )
+    return (
+        "<div style='font-family:system-ui,sans-serif;max-width:640px'>"
+        f"<h2 style='margin:0 0 4px'>{len(matches)} agenda items to watch</h2>"
+        "<p style='color:#666;margin:0 0 16px'>From CivicSignal, your local government agenda monitor.</p>"
+        f"<ol style='padding-left:18px'>{''.join(rows)}</ol></div>"
+    )

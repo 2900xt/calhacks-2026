@@ -23,6 +23,7 @@ Local decisions about bike lanes, housing, rent rules and police budgets are pub
 | `maxMeetingsPerJurisdiction` | Caps run time and cost (default 4) |
 | `minRelevance` | Threshold for a match (default 0.5) |
 | `includeAllItems` | Also output the items below the threshold |
+| `alertEmail` | Email the matches here via the `apify/send-mail` Actor |
 | `anthropicApiKey` | Optional: use your own key for Claude scoring |
 
 Example:
@@ -79,7 +80,7 @@ Pay per event:
 
 ## Run it on a schedule
 
-Create a Task with your interests, then add a weekly Schedule. To get alerts, attach a webhook on `ACTOR.RUN.SUCCEEDED`, or connect Slack or email through Apify integrations.
+Save your input as a Task, set `alertEmail`, and attach a weekly Schedule. Each run hands its digest to Apify's `apify/send-mail` Actor, so new matches arrive in your inbox. The CivicSignal web app sets this up in one click.
 
 ## Limitations
 
