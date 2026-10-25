@@ -9,6 +9,7 @@ import type { CivicEvent } from "./api/events/route";
 import { feature } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 import us from "us-atlas/counties-albers-10m.json";
+import { grade, house, integrity, senators } from "@/lib/congress";
 import { CALIFORNIA, CITIES, COUNTY_ISSUES, NATION, type City, type Level, type Official } from "@/lib/places";
 
 const W = 975;
@@ -28,16 +29,14 @@ export function MapExplorer({ onExplore }: { onExplore: (cityId: string) => void
     counties: GeometryCollection<{ name: string }>;
   }>;
   const states = useMemo(() => (feature(topo, topo.objects.states) as unknown as { features: Feature[] }).features, [topo]);
-  const caCounties = useMemo(
-    () =>
-      (feature(topo, topo.objects.counties) as unknown as { features: Feature[] }).features.filter((f) =>
-        String(f.id).startsWith(CALIFORNIA.fips),
-      ),
-    [topo],
-  );
-  const california = states.find((s) => s.id === CALIFORNIA.fips)!;
+  const allCounties = useMemo(() => (feature(topo, topo.objects.counties) as unknown as { features: Feature[] }).features, [topo]);
+  const statesWithCities = useMemo(() => new Set(CITIES.map((c) => c.state)), []);
 
   const [level, setLevel] = useState<Level>("nation");
+  const [stateFips, setStateFips] = useState<string>(CALIFORNIA.fips);
+  const usState = states.find((s) => s.id === stateFips)!;
+  const stateCounties = useMemo(() => allCounties.filter((f) => String(f.id).startsWith(stateFips)), [allCounties, stateFips]);
+  const stateCities = CITIES.filter((c) => c.state === usState.properties.name);
   const [city, setCity] = useState<City | null>(null);
   const [hover, setHover] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -45,7 +44,7 @@ export function MapExplorer({ onExplore }: { onExplore: (cityId: string) => void
   const svgRef = useRef<SVGSVGElement>(null);
   const gRef = useRef<SVGGElement>(null);
 
-  const county = useMemo(() => (city ? caCounties.find((c) => c.id === city.countyFips) ?? null : null), [city, caCounties]);
+  const county = useMemo(() => (city?.countyFips ? allCounties.find((c) => c.id === city.countyFips) ?? null : null), [city, allCounties]);
   const cityXY = useMemo(() => (city ? (projection(city.lonlat) as [number, number]) : null), [city]);
 
   // Animate the camera to the box for the current level.
@@ -54,7 +53,7 @@ export function MapExplorer({ onExplore }: { onExplore: (cityId: string) => void
       [0, 0],
       [W, H],
     ];
-    if (level === "state") box = path.bounds(california as GeoPermissibleObjects);
+    if (level === "state") box = path.bounds(usState as GeoPermissibleObjects);
     if (level === "district" && county) box = path.bounds(county as GeoPermissibleObjects);
     if (level === "city" && cityXY) box = [
       [cityXY[0] - 5, cityXY[1] - 3.2],
@@ -71,26 +70,26 @@ export function MapExplorer({ onExplore }: { onExplore: (cityId: string) => void
     g.transition()
       .duration(1100)
       .attr("transform", level === "nation" ? "translate(0,0) scale(1)" : t.toString());
-  }, [level, city, california, county, cityXY]);
+  }, [level, city, usState, county, cityXY]);
 
   function pickCity(id: string) {
     const c = CITIES.find((x) => x.id === id);
     if (!c) return;
     setNotice(null);
+    const fips = states.find((s) => s.properties.name === c.state)?.id;
+    if (fips) setStateFips(fips);
     setCity(c);
     setLevel("city");
   }
 
   function clickState(f: Feature) {
-    if (f.id === CALIFORNIA.fips) {
-      setNotice(null);
-      setLevel("state");
-    } else {
-      setNotice(`BeInvolved is live in the Bay Area first. ${f.properties.name} is coming soon.`);
-    }
+    setNotice(null);
+    setStateFips(f.id);
+    if (city && city.state !== f.properties.name) setCity(null);
+    setLevel("state");
   }
 
-  const available = (l: Level) => l === "nation" || l === "state" || !!city;
+  const available = (l: Level) => l === "nation" || l === "state" || (l === "district" ? !!city?.countyFips : !!city);
   const r = 9 / k; // same on-screen size at every zoom level
 
   return (
@@ -110,7 +109,7 @@ export function MapExplorer({ onExplore }: { onExplore: (cityId: string) => void
               </option>
               {CITIES.map((c) => (
                 <option key={c.id} value={c.id}>
-                  {c.name}, CA
+                  {c.name}, {abbr(c.state)}
                 </option>
               ))}
             </select>
@@ -119,7 +118,8 @@ export function MapExplorer({ onExplore }: { onExplore: (cityId: string) => void
           <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} className="block h-[420px] w-full sm:h-[520px]" role="img" aria-label="Map of the United States">
             <g ref={gRef}>
               {states.map((s) => {
-                const isCA = s.id === CALIFORNIA.fips;
+                const covered = statesWithCities.has(s.properties.name);
+                const selected = s.id === stateFips && level !== "nation";
                 return (
                   <path
                     key={s.id}
@@ -128,11 +128,11 @@ export function MapExplorer({ onExplore }: { onExplore: (cityId: string) => void
                     onMouseEnter={() => setHover(s.properties.name)}
                     onMouseLeave={() => setHover(null)}
                     className={`cursor-pointer transition-colors ${
-                      isCA
-                        ? level === "nation"
-                          ? "fill-accent/70 hover:fill-accent"
-                          : "fill-[#e9e4d8]"
-                        : "fill-[#e2ddd2] hover:fill-[#d3cdbf]"
+                      selected
+                        ? "fill-[#ece7dc]"
+                        : covered && level === "nation"
+                          ? "fill-accent/60 hover:fill-accent"
+                          : "fill-[#e2ddd2] hover:fill-[#d3cdbf]"
                     }`}
                     stroke="#fbf8f2"
                     strokeWidth={1}
@@ -141,7 +141,7 @@ export function MapExplorer({ onExplore }: { onExplore: (cityId: string) => void
                 );
               })}
               {level !== "nation" &&
-                caCounties.map((c) => {
+                stateCounties.map((c) => {
                   const mine = county?.id === c.id;
                   return (
                     <path
@@ -156,8 +156,7 @@ export function MapExplorer({ onExplore }: { onExplore: (cityId: string) => void
                     />
                   );
                 })}
-              {level !== "nation" &&
-                CITIES.map((c) => {
+              {(level === "nation" ? CITIES : stateCities).map((c) => {
                   const [x, y] = projection(c.lonlat) as [number, number];
                   const on = city?.id === c.id;
                   return (
@@ -208,47 +207,98 @@ export function MapExplorer({ onExplore }: { onExplore: (cityId: string) => void
                   level === l ? "border-foreground bg-foreground text-background" : "border-line bg-white hover:border-accent"
                 }`}
               >
-                {levelLabel(l, city)}
+                {levelLabel(l, city, usState.properties.name)}
               </button>
             ))}
           </nav>
         </div>
 
         <aside className="border-t border-line bg-white p-5 lg:border-l lg:border-t-0">
-          <LevelPanel level={level} city={city} onExplore={onExplore} />
+          <LevelPanel level={level} city={city} stateName={usState.properties.name} stateCities={stateCities} onPick={pickCity} onExplore={onExplore} />
         </aside>
       </div>
     </section>
   );
 }
 
-function LevelPanel({ level, city, onExplore }: { level: Level; city: City | null; onExplore: (id: string) => void }) {
+function LevelPanel({
+  level,
+  city,
+  stateName,
+  stateCities,
+  onPick,
+  onExplore,
+}: {
+  level: Level;
+  city: City | null;
+  stateName: string;
+  stateCities: City[];
+  onPick: (id: string) => void;
+  onExplore: (id: string) => void;
+}) {
+  const sens: Official[] = senators(stateName).map((m) => ({ role: "U.S. Senator", name: m.name, party: m.party }));
   if (level === "nation")
     return (
       <Panel kicker="National" title={NATION.name} officials={NATION.officials} issues={NATION.issues} callout={NATION.callout}>
-        <p className="text-xs text-muted">Click California, or pick your city, to zoom in.</p>
+        <p className="text-xs text-muted">
+          Click any state to see its senators and House delegation. Green states have cities with live meeting
+          calendars.
+        </p>
       </Panel>
     );
-  if (level === "state" || !city)
+  if (level === "state" || !city) {
+    const ca = stateName === CALIFORNIA.name;
+    const reps = house(stateName);
     return (
-      <Panel kicker="State" title={CALIFORNIA.name} officials={CALIFORNIA.officials} issues={CALIFORNIA.issues} callout={CALIFORNIA.callout}>
-        <p className="text-xs text-muted">Click a city dot to see who represents it.</p>
+      <Panel
+        kicker="State"
+        title={stateName}
+        officials={ca ? CALIFORNIA.officials : sens}
+        issues={ca ? CALIFORNIA.issues : []}
+        callout={ca ? CALIFORNIA.callout : undefined}
+      >
+        {reps.length > 0 && (
+          <p className="mb-4 text-xs text-muted">
+            Integrity Index scores {reps.length} of {stateName}&apos;s current U.S. House members. Their average:{" "}
+            <b className="text-foreground">{Math.round(reps.reduce((n, m) => n + m.score, 0) / reps.length)}</b>/100.
+          </p>
+        )}
+        {stateCities.length > 0 ? (
+          <>
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-muted">Cities with live calendars</p>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {stateCities.map((c) => (
+                <button key={c.id} onClick={() => onPick(c.id)} className="rounded-full border border-line px-2.5 py-1 text-xs hover:border-accent">
+                  {c.name} →
+                </button>
+              ))}
+            </div>
+          </>
+        ) : (
+          <p className="text-xs text-muted">No {stateName} cities on BeInvolved yet. Your senators and House members still vote on your behalf.</p>
+        )}
       </Panel>
     );
-  if (level === "district")
+  }
+  if (level === "district" && city.countyFips && city.rep)
     return (
       <Panel
         kicker={`District ${city.district} · ${city.county}`}
         title={`${city.county}`}
-        officials={[city.rep, ...CALIFORNIA.officials.slice(1)]}
+        officials={[city.rep, ...sens]}
         issues={COUNTY_ISSUES[city.countyFips] ?? []}
       >
         <Events cityId={city.id} cityName={city.name} />
-        <p className="text-xs text-muted">Your House member votes on federal laws; your senators represent all of California.</p>
+        <p className="text-xs text-muted">Your House member votes on federal laws; your senators represent all of {stateName}.</p>
       </Panel>
     );
   return (
-    <Panel kicker={`City · ${city.county}`} title={city.name} officials={[...city.local, city.rep]} issues={city.issues}>
+    <Panel
+      kicker={`City · ${city.county ?? stateName}`}
+      title={city.name}
+      officials={[...(city.local ?? []), ...(city.rep ? [city.rep] : []), ...(city.rep ? [] : sens)]}
+      issues={city.issues ?? []}
+    >
       <Events cityId={city.id} cityName={city.name} />
       <button
         onClick={() => onExplore(city.id)}
@@ -287,6 +337,7 @@ function Panel({
             <span className="text-right font-medium">
               {o.name}
               {o.party && <span className="ml-1 text-xs text-muted">({o.party})</span>}
+              <IntegrityBadge name={o.name} />
             </span>
           </li>
         ))}
@@ -361,9 +412,33 @@ function Events({ cityId, cityName }: { cityId: string; cityName: string }) {
   );
 }
 
-function levelLabel(l: Level, city: City | null) {
+function IntegrityBadge({ name }: { name: string }) {
+  const ii = integrity(name);
+  if (!ii) return null;
+  return (
+    <a
+      href={ii.url}
+      target="_blank"
+      rel="noreferrer"
+      title="Financial integrity score from Integrity Index (integrityindex.us)"
+      className="mt-0.5 block text-[11px] font-normal text-muted hover:text-accent"
+    >
+      Integrity Index {Math.round(ii.score)}/100 · {grade(ii.score)} ↗
+    </a>
+  );
+}
+
+function abbr(state: string) {
+  const m: Record<string, string> = {
+    California: "CA", Washington: "WA", Arizona: "AZ", Colorado: "CO", Texas: "TX", Missouri: "MO",
+    Wisconsin: "WI", Ohio: "OH", Pennsylvania: "PA", Maryland: "MD", Massachusetts: "MA",
+  };
+  return m[state] ?? state;
+}
+
+function levelLabel(l: Level, city: City | null, stateName: string) {
   if (l === "nation") return "🇺🇸 National";
-  if (l === "state") return "California";
-  if (l === "district") return city ? `${city.district} · ${city.county.replace(" County", "")}` : "District";
+  if (l === "state") return stateName;
+  if (l === "district") return city?.county ? `${city.district} · ${city.county.replace(" County", "")}` : "District";
   return city ? city.name : "City";
 }

@@ -1,4 +1,8 @@
 import { ApifyClient } from "apify-client";
+import { JURISDICTIONS } from "./civic-shared";
+import { CITIES } from "./places";
+
+const PRESET_IDS = new Set(JURISDICTIONS.map((j) => j.id));
 
 export type AgendaMatch = {
   itemId: string;
@@ -44,8 +48,11 @@ export function apify(): ApifyClient {
 /** Runs the BeInvolved Actor on Apify and returns its matches plus the digest it saved. */
 export async function runScan(input: ScanInput) {
   const client = apify();
+  // Preset cities go in `jurisdictions`; any other Legistar city is passed through as a client slug.
+  const jurisdictions = input.jurisdictions.filter((j) => PRESET_IDS.has(j));
+  const extraLegistarClients = input.jurisdictions.filter((j) => !PRESET_IDS.has(j));
   const run = await client.actor(actorId()).call(
-    { ...input, minRelevance: "0.5", maxMeetingsPerJurisdiction: 4 },
+    { ...input, jurisdictions, extraLegistarClients, minRelevance: "0.5", maxMeetingsPerJurisdiction: 4 },
     { waitSecs: 240, maxTotalChargeUsd: 2 },
   );
   const { items } = await client.dataset(run.defaultDatasetId).listItems({ clean: true });
@@ -55,7 +62,10 @@ export async function runScan(input: ScanInput) {
     runId: run.id,
     runUrl: `https://console.apify.com/actors/runs/${run.id}`,
     status: run.status,
-    items: items as unknown as AgendaMatch[],
+    items: (items as unknown as AgendaMatch[]).map((i) => {
+      const city = CITIES.find((c) => c.id === i.jurisdiction);
+      return city && !PRESET_IDS.has(city.id) ? { ...i, jurisdictionName: `City of ${city.name}` } : i;
+    }),
     digest: out.digest ?? "",
     itemsScanned: out.itemsScanned ?? 0,
   };

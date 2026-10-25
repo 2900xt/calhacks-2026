@@ -9,15 +9,16 @@ export type Official = { role: string; name: string; party?: string };
 export type Level = "nation" | "state" | "district" | "city";
 
 export type City = {
-  id: string; // matches the Actor's jurisdiction ids
+  id: string; // the Actor's jurisdiction id, or any Legistar client slug
   name: string;
+  state: string;
   lonlat: [number, number];
-  countyFips: string;
-  county: string;
-  district: string;
-  rep: Official;
-  local: Official[];
-  issues: string[];
+  countyFips?: string;
+  county?: string;
+  district?: string;
+  rep?: Official;
+  local?: Official[];
+  issues?: string[];
 };
 
 export const NATION = {
@@ -51,6 +52,7 @@ export const CITIES: City[] = [
   {
     id: "berkeley",
     name: "Berkeley",
+    state: "California",
     lonlat: [-122.2727, 37.8716],
     countyFips: "06001",
     county: "Alameda County",
@@ -62,6 +64,7 @@ export const CITIES: City[] = [
   {
     id: "oakland",
     name: "Oakland",
+    state: "California",
     lonlat: [-122.2712, 37.8044],
     countyFips: "06001",
     county: "Alameda County",
@@ -73,6 +76,7 @@ export const CITIES: City[] = [
   {
     id: "alameda",
     name: "Alameda",
+    state: "California",
     lonlat: [-122.2416, 37.7652],
     countyFips: "06001",
     county: "Alameda County",
@@ -84,6 +88,7 @@ export const CITIES: City[] = [
   {
     id: "sanjose",
     name: "San José",
+    state: "California",
     lonlat: [-121.8863, 37.3382],
     countyFips: "06085",
     county: "Santa Clara County",
@@ -95,6 +100,7 @@ export const CITIES: City[] = [
   {
     id: "mountainview",
     name: "Mountain View",
+    state: "California",
     lonlat: [-122.0838, 37.3861],
     countyFips: "06085",
     county: "Santa Clara County",
@@ -106,6 +112,7 @@ export const CITIES: City[] = [
   {
     id: "sunnyvaleca",
     name: "Sunnyvale",
+    state: "California",
     lonlat: [-122.0363, 37.3688],
     countyFips: "06085",
     county: "Santa Clara County",
@@ -114,4 +121,23 @@ export const CITIES: City[] = [
     local: [{ role: "Mayor", name: "Larry Klein" }],
     issues: ["Downtown redevelopment", "Housing near Caltrain", "Moffett Park plan"],
   },
+  // Cities across the country whose council and commission calendars are on Legistar, so live
+  // meetings and agenda scans work there too (verified Oct 2026).
+  ...(
+    [
+      ["sacramento", "Sacramento", "California", -121.4944, 38.5816],
+      ["fresno", "Fresno", "California", -119.7871, 36.7378],
+      ["seattle", "Seattle", "Washington", -122.3321, 47.6062],
+      ["phoenix", "Phoenix", "Arizona", -112.074, 33.4484],
+      ["denver", "Denver", "Colorado", -104.9903, 39.7392],
+      ["austintexas", "Austin", "Texas", -97.7431, 30.2672],
+      ["kansascity", "Kansas City", "Missouri", -94.5786, 39.0997],
+      ["madison", "Madison", "Wisconsin", -89.4012, 43.0731],
+      ["milwaukee", "Milwaukee", "Wisconsin", -87.9065, 43.0389],
+      ["columbus", "Columbus", "Ohio", -82.9988, 39.9612],
+      ["pittsburgh", "Pittsburgh", "Pennsylvania", -79.9959, 40.4406],
+      ["baltimore", "Baltimore", "Maryland", -76.6122, 39.2904],
+      ["boston", "Boston", "Massachusetts", -71.0589, 42.3601],
+    ] as const
+  ).map(([id, name, state, lon, lat]) => ({ id, name, state, lonlat: [lon, lat] as [number, number] })),
 ];

@@ -53,8 +53,9 @@ async def scan(inp: dict) -> ScanResult:
     if not interests:
         raise ValueError('"interests" must list at least one topic you care about.')
 
-    jurisdictions = list(dict.fromkeys(inp.get('jurisdictions') or ['berkeley', 'oakland']))
     extra = [s.strip().lower() for s in inp.get('extraLegistarClients') or [] if s.strip()]
+    # Default to Berkeley + Oakland only when the caller named no cities at all.
+    jurisdictions = list(dict.fromkeys(inp.get('jurisdictions') or ([] if extra else ['berkeley', 'oakland'])))
     max_meetings = int(inp.get('maxMeetingsPerJurisdiction', 4))
     min_relevance = float(inp.get('minRelevance', 0.5))
     api_key = inp.get('anthropicApiKey') or os.environ.get('ANTHROPIC_API_KEY')

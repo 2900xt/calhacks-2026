@@ -3,14 +3,13 @@ import { NextResponse } from "next/server";
 export type CivicEvent = { date: string; time: string | null; name: string; location: string | null; url: string | null };
 
 const UA = "BeInvolved/1.0 (+https://beinvolved.us)";
-const LEGISTAR = new Set(["oakland", "sanjose", "alameda", "mountainview", "sunnyvaleca"]);
 
 /** The next few public meetings anyone can attend: council, committees and commissions. */
 export async function GET(req: Request) {
   const city = new URL(req.url).searchParams.get("city") ?? "";
   const today = new Date().toISOString().slice(0, 10);
   try {
-    const events = LEGISTAR.has(city) ? await legistar(city, today) : city === "berkeley" ? await berkeley(today) : [];
+    const events = city === "berkeley" ? await berkeley(today) : /^[a-z]{3,30}$/.test(city) ? await legistar(city, today) : [];
     return NextResponse.json({ events: events.slice(0, 3) }, { headers: { "Cache-Control": "s-maxage=3600" } });
   } catch (err) {
     return NextResponse.json({ events: [], error: (err as Error).message }, { status: 502 });
