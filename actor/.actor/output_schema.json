@@ -1,0 +1,19 @@
+{
+    "actorOutputSchemaVersion": 1,
+    "title": "BeInvolved output",
+    "description": "Agenda items that match your interests, plus a ready-to-read digest.",
+    "properties": {
+        "matches": {
+            "type": "string",
+            "title": "Matching agenda items",
+            "description": "One row per upcoming agenda item that matches your interests, with a plain-English summary, relevance, action type, meeting date and staff report link.",
+            "template": "{{links.apiDefaultDatasetUrl}}/items"
+        },
+        "digest": {
+            "type": "string",
+            "title": "Digest",
+            "description": "Summary of the scan with a Markdown digest of the top matches (the OUTPUT record).",
+            "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/OUTPUT"
+        }
+    }
+}

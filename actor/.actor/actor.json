@@ -13,5 +13,6 @@
     "readme": "../README.md",
     "usesStandbyMode": true,
     "webServerMcpPath": "/mcp",
-    "environmentVariables": {}
+    "environmentVariables": {},
+    "output": "./output_schema.json"
 }
