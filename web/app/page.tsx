@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { AgendaMatch } from "@/lib/civic";
 import { JURISDICTIONS } from "@/lib/civic-shared";
 import { downloadIcs } from "@/lib/ics";
+import { UnderTheHood } from "./under-the-hood";
 
 type ScanResult = {
   runUrl: string | null;
@@ -317,6 +318,8 @@ export default function Home() {
         )}
 
         <AgentPanel interests={interests} cities={cities} />
+
+        <UnderTheHood />
 
         <footer className="mt-14 flex flex-wrap gap-x-6 gap-y-2 border-t border-line pt-6 text-xs text-muted">
           <span>Agenda data: Legistar Web API and berkeleyca.gov, collected by the CivicSignal Apify Actor.</span>
