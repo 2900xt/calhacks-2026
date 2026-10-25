@@ -16,10 +16,33 @@
    "description": "From: City Manager | Recommendation: Adopt a Resolution authorizing the City Manager or designee to accept the \"Selective Traffic Enforcement Program (STEP)\" grant and execute any resultant revenue agreements and amendments with the California Office of Traffic Safety. This OTS grant is $200,000 for the period of October 1, 2026, through September 30, 2027, which corresponds to Federal Fiscal Year 2027. | Financial Implications: See report",
    "documentUrl": "https://berkeleyca.gov/sites/default/files/2026-10-27%20Item%2013%20Revenue%20Grant%20California%20Office%20of%20Traffic.pdf",
    "attachments": [],
-   "relevance": 0.5,
+   "relevance": 0.85,
    "matchedInterest": "Bike lanes, traffic safety and street design",
-   "reason": "Mentions terms related to \"Bike lanes, traffic safety and street design\".",
+   "reason": "Keyword match on 'design', 'safety', 'traffi'.",
    "plainSummary": "Revenue Grant: California Office of Traffic Safety (OTS) for the 2026-2027 \u201cSelective Traffic Enforcement Program (STEP)\u201d Grant",
+   "actionType": "consent",
+   "scoredBy": "keywords"
+  },
+  {
+   "itemId": "c4ef4235f634",
+   "jurisdiction": "berkeley",
+   "jurisdictionName": "City of Berkeley",
+   "platform": "berkeley-eagenda",
+   "body": "City Council (Regular Meeting)",
+   "meetingDate": "2026-10-27",
+   "meetingTime": null,
+   "meetingUrl": "https://berkeleyca.gov/city-council-regular-meeting-eagenda-october-27-2026",
+   "agendaUrl": "https://berkeleyca.gov/city-council-regular-meeting-eagenda-october-27-2026",
+   "section": "Consent Calendar",
+   "itemNumber": "14",
+   "title": "Authorizing the City Manager to Submit a Local Highway Safety Improvement Program (HSIP) Cycle-13 Grant Application and to Execute Any Resultant Grant Agreement and Amendments",
+   "description": "From: City Manager | Recommendation: Adopt a Resolution authorizing the City Manager to submit an application by November 2, 2026 to the California Department of Transportation (Caltrans) for a Local Highway Safety Improvement Program (HSIP) Cycle-13 grant for safety improvements to thirty (30) signalized intersections along Shattuck Avenue, University Avenue, Bancroft Way, and Oxford Street; accept the funds; and execute any resultant agreements and amendments. | Financial Implications: See report",
+   "documentUrl": "https://berkeleyca.gov/sites/default/files/2026-10-27%20Item%2014%20Authorizing%20the%20City%20Manager%20to%20Submit.pdf",
+   "attachments": [],
+   "relevance": 0.6,
+   "matchedInterest": "Bike lanes, traffic safety and street design",
+   "reason": "Keyword match on 'safety', 'street'.",
+   "plainSummary": "Authorizing the City Manager to Submit a Local Highway Safety Improvement Program (HSIP) Cycle-13 Grant Application and to Execute Any Resultant Grant Agreement and Amendments",
    "actionType": "consent",
    "scoredBy": "keywords"
   },
@@ -39,9 +62,9 @@
    "description": "From: Zero Waste Commission | Recommendation: Recommend Council to direct the City Manager to refer Public Works Zero Waste staff and Planning, Safety and Building, Energy and Sustainability and Green Building staff work together to develop recommendations to implement a clear path to enforcement for non-compliance with Berkeley Green Code (BMC 19.37) Construction and Demolition (C&D) waste diversion requirements, including the possibility of fines and citations and other mechanisms to increase compliance. | Financial Implications: See report",
    "documentUrl": "https://berkeleyca.gov/sites/default/files/2026-10-27%20Item%2023a%20Enforceable%20Mechanism%20for%20Berkeley.pdf",
    "attachments": [],
-   "relevance": 0.5,
+   "relevance": 0.6,
    "matchedInterest": "Police and public safety budget",
-   "reason": "Mentions terms related to \"Police and public safety budget\".",
+   "reason": "Keyword match on 'public', 'safety'.",
    "plainSummary": "Enforceable Mechanism for Berkeley Green Code Compliance",
    "actionType": "consent",
    "scoredBy": "keywords"
@@ -62,11 +85,11 @@
    "description": "From: City Manager | Recommendation: Adopt two Resolutions that enable the City to move forward into negotiation and predevelopment with a selected development team for the Ashby East Lot Transit Oriented Development (TOD) project, located at the intersection of Woolsey St. and Tremont St., directly east of the Ed Roberts Campus, by: 1. Authorizing the City Manager or designee to negotiate and enter into an Exclusive Negotiating Rights Agreement (ENRA) and any required amendments with Satellite Affordable Housing Associates (SAHA), Habitat for Humanity East Bay/Silicon Valley, and Deborah D. Matthews Consulting (collectively, \u201cthe SAHA Team\u201d). 2. Authorizing the City Manager or designee to negotiate and enter into an ENRA and any required amendments with the alternative developer, Related California and the Kelsey (collectively, \u201cthe Related Team\u201d), in the event that the ENRA with the SAHA Team is terminated or if the City does not enter into a ENRA with the SAHA Team. 3. Approving the reservation of $1 million of Affordable Housing Mitigation Fees (Fund 120) to the SAHA Team or their affiliate(s) to support master planning and predevelopment activities related to the development of affordable housing at the Ashby East Lot BART site. 4. Affirming that the City's Housing Trust Fund Guidelines will apply to the use of funds to support master planning and predevelopment activities related to the development of affordable housing at the Ashby East Lot BART site. 5. Authorizing the City Manager or designee to execute all original or amended documents or agreements in accordance with the intent of this Resolution. | Financial Implications: See report",
    "documentUrl": "https://berkeleyca.gov/sites/default/files/2026-10-27%20Item%2030%20Ashby%20BART%20East%20Lot%20Developer%20Selection.pdf",
    "attachments": [],
-   "relevance": 0.5,
+   "relevance": 0.6,
    "matchedInterest": "Housing affordability and new apartments near UC Berkeley",
-   "reason": "Mentions terms related to \"Housing affordability and new apartments near UC Berkeley\".",
+   "reason": "Keyword match on 'afford', 'housin'.",
    "plainSummary": "Ashby BART East Lot Developer Selection for Exclusive Negotiation and Reservation of Predevelopment Funding",
-   "actionType": "other",
+   "actionType": "vote",
    "scoredBy": "keywords"
   },
   {
@@ -106,11 +129,11 @@
      "url": "https://oakland.legistar1.com/oakland/attachments/5d33ed07-5b6a-4dc2-8ea4-6616e00b565a.pdf"
     }
    ],
-   "relevance": 0.5,
+   "relevance": 0.6,
    "matchedInterest": "Police and public safety budget",
-   "reason": "Mentions terms related to \"Police and public safety budget\".",
+   "reason": "Keyword match on 'budget', 'public'.",
    "plainSummary": "Informational Report On Citywide Staffing - September 2026",
-   "actionType": "other",
+   "actionType": "informational",
    "scoredBy": "keywords"
   },
   {
@@ -142,11 +165,11 @@
      "url": "https://oakland.legistar1.com/oakland/attachments/5c1e6c4c-ba35-4052-a1e6-2475576f3830.pdf"
     }
    ],
-   "relevance": 0.5,
+   "relevance": 0.6,
    "matchedInterest": "Police and public safety budget",
-   "reason": "Mentions terms related to \"Police and public safety budget\".",
+   "reason": "Keyword match on 'public', 'safety'.",
    "plainSummary": "BSCC Proposition 64 Cohort 4 Grant",
-   "actionType": "other",
+   "actionType": "vote",
    "scoredBy": "keywords"
   },
   {
@@ -165,9 +188,9 @@
    "description": null,
    "documentUrl": "https://legistar.granicus.com/sanjose/meetings/2026/10/8108_A_City_Council_26-10-27_Amended_Agenda.pdf",
    "attachments": [],
-   "relevance": 0.5,
+   "relevance": 0.6,
    "matchedInterest": "Police and public safety budget",
-   "reason": "Mentions terms related to \"Police and public safety budget\".",
+   "reason": "Keyword match on 'public', 'safety'.",
    "plainSummary": "PUBLIC SAFETY SERVICES",
    "actionType": "other",
    "scoredBy": "keywords"
@@ -197,9 +220,9 @@
      "url": "https://legistar.granicus.com/sanjose/attachments/ae637874-2d02-4923-b9f3-2f5b65a8328a.pdf"
     }
    ],
-   "relevance": 0.5,
+   "relevance": 0.6,
    "matchedInterest": "Police and public safety budget",
-   "reason": "Mentions terms related to \"Police and public safety budget\".",
+   "reason": "Keyword match on 'public', 'safety'.",
    "plainSummary": "Actions Related to the Proposition 64 Public Health and Safety Grant Program.",
    "actionType": "consent",
    "scoredBy": "keywords"
@@ -220,9 +243,9 @@
    "description": null,
    "documentUrl": "https://legistar.granicus.com/sanjose/meetings/2026/11/8122_A_City_Council_26-11-03_Agenda.pdf",
    "attachments": [],
-   "relevance": 0.5,
+   "relevance": 0.6,
    "matchedInterest": "Police and public safety budget",
-   "reason": "Mentions terms related to \"Police and public safety budget\".",
+   "reason": "Keyword match on 'public', 'safety'.",
    "plainSummary": "PUBLIC SAFETY SERVICES",
    "actionType": "other",
    "scoredBy": "keywords"
@@ -248,37 +271,14 @@
      "url": "https://legistar1.granicus.com/alameda/attachments/0db2d9ca-c32a-4dd3-b3c4-017f1c02dbf4.pdf"
     }
    ],
-   "relevance": 0.5,
+   "relevance": 0.6,
    "matchedInterest": "Police and public safety budget",
-   "reason": "Mentions terms related to \"Police and public safety budget\".",
+   "reason": "Keyword match on 'police', 'safety'.",
    "plainSummary": "Recommendation to Authorize Updates to the Existing Alameda Police Department Policy Manual to Conform to Best Practices and to Ratify Policies that Have Been Updated Pursuant to Legal Updates, Significant Liability Issues, and Imminent Safety. (Police 10031100)",
-   "actionType": "consent",
-   "scoredBy": "keywords"
-  },
-  {
-   "itemId": "c4ef4235f634",
-   "jurisdiction": "berkeley",
-   "jurisdictionName": "City of Berkeley",
-   "platform": "berkeley-eagenda",
-   "body": "City Council (Regular Meeting)",
-   "meetingDate": "2026-10-27",
-   "meetingTime": null,
-   "meetingUrl": "https://berkeleyca.gov/city-council-regular-meeting-eagenda-october-27-2026",
-   "agendaUrl": "https://berkeleyca.gov/city-council-regular-meeting-eagenda-october-27-2026",
-   "section": "Consent Calendar",
-   "itemNumber": "14",
-   "title": "Authorizing the City Manager to Submit a Local Highway Safety Improvement Program (HSIP) Cycle-13 Grant Application and to Execute Any Resultant Grant Agreement and Amendments",
-   "description": "From: City Manager | Recommendation: Adopt a Resolution authorizing the City Manager to submit an application by November 2, 2026 to the California Department of Transportation (Caltrans) for a Local Highway Safety Improvement Program (HSIP) Cycle-13 grant for safety improvements to thirty (30) signalized intersections along Shattuck Avenue, University Avenue, Bancroft Way, and Oxford Street; accept the funds; and execute any resultant agreements and amendments. | Financial Implications: See report",
-   "documentUrl": "https://berkeleyca.gov/sites/default/files/2026-10-27%20Item%2014%20Authorizing%20the%20City%20Manager%20to%20Submit.pdf",
-   "attachments": [],
-   "relevance": 0.33,
-   "matchedInterest": "Bike lanes, traffic safety and street design",
-   "reason": "Mentions terms related to \"Bike lanes, traffic safety and street design\".",
-   "plainSummary": "Authorizing the City Manager to Submit a Local Highway Safety Improvement Program (HSIP) Cycle-13 Grant Application and to Execute Any Resultant Grant Agreement and Amendments",
    "actionType": "consent",
    "scoredBy": "keywords"
   }
  ],
  "itemsScanned": 203,
- "digest": "# CivicSignal digest \u2014 10 items to watch\n\n- **City of Berkeley \u00b7 City Council (Regular Meeting) \u00b7 2026-10-27** \u2014 Revenue Grant: California Office of Traffic Safety (OTS) for the 2026-2027 \u201cSelective Traffic Enforcement Program (STEP)\u201d Grant (consent, relevance 0.5). Mentions terms related to \"Bike lanes, traffic safety and street design\". [Source](https://berkeleyca.gov/sites/default/files/2026-10-27%20Item%2013%20Revenue%20Grant%20California%20Office%20of%20Traffic.pdf)\n- **City of Berkeley \u00b7 City Council (Regular Meeting) \u00b7 2026-10-27** \u2014 Enforceable Mechanism for Berkeley Green Code Compliance (consent, relevance 0.5). Mentions terms related to \"Police and public safety budget\". [Source](https://berkeleyca.gov/sites/default/files/2026-10-27%20Item%2023a%20Enforceable%20Mechanism%20for%20Berkeley.pdf)\n- **City of Berkeley \u00b7 City Council (Regular Meeting) \u00b7 2026-10-27** \u2014 Ashby BART East Lot Developer Selection for Exclusive Negotiation and Reservation of Predevelopment Funding (other, relevance 0.5). Mentions terms related to \"Housing affordability and new apartments near UC Berkeley\". [Source](https://berkeleyca.gov/sites/default/files/2026-10-27%20Item%2030%20Ashby%20BART%20East%20Lot%20Developer%20Selection.pdf)\n- **City of Oakland \u00b7 Special Finance & Management Committee \u00b7 2026-10-27** \u2014 Informational Report On Citywide Staffing - September 2026 (other, relevance 0.5). Mentions terms related to \"Police and public safety budget\". [Source](https://oakland.legistar1.com/oakland/attachments/6ccb6d6f-6c20-447e-89cb-ca96fa570722.pdf)\n- **City of Oakland \u00b7 Community & Economic Development Committee \u00b7 2026-10-27** \u2014 BSCC Proposition 64 Cohort 4 Grant (other, relevance 0.5). Mentions terms related to \"Police and public safety budget\". [Source](https://oakland.legistar1.com/oakland/attachments/890dd01f-7b8c-4d21-9641-1839f2d06da1.pdf)\n- **City of San Jos\u00e9 \u00b7 City Council \u00b7 2026-10-27** \u2014 PUBLIC SAFETY SERVICES (other, relevance 0.5). Mentions terms related to \"Police and public safety budget\". [Source](https://legistar.granicus.com/sanjose/meetings/2026/10/8108_A_City_Council_26-10-27_Amended_Agenda.pdf)\n- **City of San Jos\u00e9 \u00b7 City Council \u00b7 2026-10-27** \u2014 Actions Related to the Proposition 64 Public Health and Safety Grant Program. (consent, relevance 0.5). Mentions terms related to \"Police and public safety budget\". [Source](https://legistar.granicus.com/sanjose/attachments/257a5c00-09de-4be7-a2c8-06ee4a4584c3.pdf)\n- **City of San Jos\u00e9 \u00b7 City Council \u00b7 2026-11-03** \u2014 PUBLIC SAFETY SERVICES (other, relevance 0.5). Mentions terms related to \"Police and public safety budget\". [Source](https://legistar.granicus.com/sanjose/meetings/2026/11/8122_A_City_Council_26-11-03_Agenda.pdf)\n- **City of Alameda \u00b7 City Council \u00b7 2026-11-04** \u2014 Recommendation to Authorize Updates to the Existing Alameda Police Department Policy Manual to Conform to Best Practices and to Ratify Policies that Have Been Updated Pursuant to Legal Updates, Significant Liability Issues, and Imminent Safety. (Police 10031100) (consent, relevance 0.5). Mentions terms related to \"Police and public safety budget\". [Source](https://legistar1.granicus.com/alameda/attachments/0db2d9ca-c32a-4dd3-b3c4-017f1c02dbf4.pdf)\n- **City of Berkeley \u00b7 City Council (Regular Meeting) \u00b7 2026-10-27** \u2014 Authorizing the City Manager to Submit a Local Highway Safety Improvement Program (HSIP) Cycle-13 Grant Application and to Execute Any Resultant Grant Agreement and Amendments (consent, relevance 0.33). Mentions terms related to \"Bike lanes, traffic safety and street design\". [Source](https://berkeleyca.gov/sites/default/files/2026-10-27%20Item%2014%20Authorizing%20the%20City%20Manager%20to%20Submit.pdf)"
+ "digest": "# CivicSignal digest \u2014 10 items to watch\n\n- **City of Berkeley \u00b7 City Council (Regular Meeting) \u00b7 2026-10-27** \u2014 Revenue Grant: California Office of Traffic Safety (OTS) for the 2026-2027 \u201cSelective Traffic Enforcement Program (STEP)\u201d Grant (consent, relevance 0.85). Keyword match on 'design', 'safety', 'traffi'. [Source](https://berkeleyca.gov/sites/default/files/2026-10-27%20Item%2013%20Revenue%20Grant%20California%20Office%20of%20Traffic.pdf)\n- **City of Berkeley \u00b7 City Council (Regular Meeting) \u00b7 2026-10-27** \u2014 Authorizing the City Manager to Submit a Local Highway Safety Improvement Program (HSIP) Cycle-13 Grant Application and to Execute Any Resultant Grant Agreement and Amendments (consent, relevance 0.6). Keyword match on 'safety', 'street'. [Source](https://berkeleyca.gov/sites/default/files/2026-10-27%20Item%2014%20Authorizing%20the%20City%20Manager%20to%20Submit.pdf)\n- **City of Berkeley \u00b7 City Council (Regular Meeting) \u00b7 2026-10-27** \u2014 Enforceable Mechanism for Berkeley Green Code Compliance (consent, relevance 0.6). Keyword match on 'public', 'safety'. [Source](https://berkeleyca.gov/sites/default/files/2026-10-27%20Item%2023a%20Enforceable%20Mechanism%20for%20Berkeley.pdf)\n- **City of Berkeley \u00b7 City Council (Regular Meeting) \u00b7 2026-10-27** \u2014 Ashby BART East Lot Developer Selection for Exclusive Negotiation and Reservation of Predevelopment Funding (vote, relevance 0.6). Keyword match on 'afford', 'housin'. [Source](https://berkeleyca.gov/sites/default/files/2026-10-27%20Item%2030%20Ashby%20BART%20East%20Lot%20Developer%20Selection.pdf)\n- **City of Oakland \u00b7 Special Finance & Management Committee \u00b7 2026-10-27** \u2014 Informational Report On Citywide Staffing - September 2026 (informational, relevance 0.6). Keyword match on 'budget', 'public'. [Source](https://oakland.legistar1.com/oakland/attachments/6ccb6d6f-6c20-447e-89cb-ca96fa570722.pdf)\n- **City of Oakland \u00b7 Community & Economic Development Committee \u00b7 2026-10-27** \u2014 BSCC Proposition 64 Cohort 4 Grant (vote, relevance 0.6). Keyword match on 'public', 'safety'. [Source](https://oakland.legistar1.com/oakland/attachments/890dd01f-7b8c-4d21-9641-1839f2d06da1.pdf)\n- **City of San Jos\u00e9 \u00b7 City Council \u00b7 2026-10-27** \u2014 PUBLIC SAFETY SERVICES (other, relevance 0.6). Keyword match on 'public', 'safety'. [Source](https://legistar.granicus.com/sanjose/meetings/2026/10/8108_A_City_Council_26-10-27_Amended_Agenda.pdf)\n- **City of San Jos\u00e9 \u00b7 City Council \u00b7 2026-10-27** \u2014 Actions Related to the Proposition 64 Public Health and Safety Grant Program. (consent, relevance 0.6). Keyword match on 'public', 'safety'. [Source](https://legistar.granicus.com/sanjose/attachments/257a5c00-09de-4be7-a2c8-06ee4a4584c3.pdf)\n- **City of San Jos\u00e9 \u00b7 City Council \u00b7 2026-11-03** \u2014 PUBLIC SAFETY SERVICES (other, relevance 0.6). Keyword match on 'public', 'safety'. [Source](https://legistar.granicus.com/sanjose/meetings/2026/11/8122_A_City_Council_26-11-03_Agenda.pdf)\n- **City of Alameda \u00b7 City Council \u00b7 2026-11-04** \u2014 Recommendation to Authorize Updates to the Existing Alameda Police Department Policy Manual to Conform to Best Practices and to Ratify Policies that Have Been Updated Pursuant to Legal Updates, Significant Liability Issues, and Imminent Safety. (Police 10031100) (consent, relevance 0.6). Keyword match on 'police', 'safety'. [Source](https://legistar1.granicus.com/alameda/attachments/0db2d9ca-c32a-4dd3-b3c4-017f1c02dbf4.pdf)"
 }

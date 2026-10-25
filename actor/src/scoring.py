@@ -89,27 +89,43 @@ async def score_with_claude(
 
 
 _WORD = re.compile(r'[a-z]{4,}')
-_STOP = {'with', 'that', 'this', 'from', 'about', 'near', 'their', 'into', 'more', 'city', 'local'}
+_STOP = {'with', 'that', 'this', 'from', 'about', 'near', 'their', 'into', 'more', 'city', 'local', 'and', 'the'}
+
+
+def guess_action_type(section: str | None, title: str) -> ActionType:
+    """Classify an item from its agenda section or matter type when no model is available."""
+    text = f'{section or ""} {title}'.lower()
+    if 'public hearing' in text:
+        return 'public_hearing'
+    if 'consent' in text:
+        return 'consent'
+    if 'informational' in text or 'information report' in text or 'information calendar' in text:
+        return 'informational'
+    if 'work session' in text or 'study session' in text or 'discussion' in text:
+        return 'discussion'
+    if any(k in text for k in ('action calendar', 'resolution', 'ordinance', 'recommendation', 'adopt', 'approve')):
+        return 'vote'
+    return 'other'
 
 
 def score_with_keywords(items: list[AgendaItem], interests: list[str]) -> dict[str, ItemScore]:
-    """Offline fallback when no Anthropic key is configured: plain keyword overlap."""
-    terms = {i: {w for w in _WORD.findall(i.lower()) if w not in _STOP} for i in interests}
+    """Offline fallback when no Anthropic key is configured: keyword overlap on word stems."""
+    terms = {i: {w[:6] for w in _WORD.findall(i.lower()) if w not in _STOP} for i in interests}
     scores = {}
     for it in items:
         text = it.prompt_text(2000).lower()
-        best, best_hits = None, 0
-        for interest, words in terms.items():
-            hits = sum(1 for w in words if w[:6] in text)
-            if hits > best_hits:
+        best, best_hits = None, []
+        for interest, stems in terms.items():
+            hits = sorted(st for st in stems if st in text)
+            if len(hits) > len(best_hits):
                 best, best_hits = interest, hits
-        relevance = min(1.0, best_hits / max(1, len(terms.get(best, ())) if best else 1)) if best else 0.0
+        relevance = {0: 0.0, 1: 0.35, 2: 0.6}.get(len(best_hits), 0.85)
         scores[it.item_id] = ItemScore(
             item_id=it.item_id,
-            relevance=round(relevance, 2),
+            relevance=relevance,
             matched_interest=best,
-            reason=f'Mentions terms related to "{best}".' if best else 'No overlap with your interests.',
+            reason=(f'Keyword match on {", ".join(repr(h) for h in best_hits)}.' if best_hits else 'No overlap with your interests.'),
             plain_summary=it.title,
-            action_type='consent' if (it.section or '').lower().startswith('consent') else 'other',
+            action_type=guess_action_type(it.section, it.title),
         )
     return scores
