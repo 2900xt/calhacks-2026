@@ -1,0 +1,10 @@
+node_modules/
+.venv/
+__pycache__/
+.env
+.env.*
+!.env.example
+storage/
+apify_storage/
+dist/
+.DS_Store
