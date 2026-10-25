@@ -1,0 +1,15 @@
+{
+    "actorSpecification": 1,
+    "name": "civicsignal",
+    "title": "CivicSignal: Local Government Agenda Monitor",
+    "description": "Watches city council agendas across platforms (Legistar and Berkeley eAgenda), normalizes every item into one schema, and uses Claude to flag the items that match a resident's plain-English interests before the vote.",
+    "version": "1.0",
+    "buildTag": "latest",
+    "input": "./input_schema.json",
+    "storages": {
+        "dataset": "./dataset_schema.json"
+    },
+    "dockerfile": "../Dockerfile",
+    "readme": "../README.md",
+    "environmentVariables": {}
+}

@@ -1,0 +1,50 @@
+{
+    "actorSpecification": 1,
+    "fields": {
+        "type": "object",
+        "properties": {
+            "itemId": { "type": "string", "description": "Stable ID for this agenda item, for de-duplicating across runs" },
+            "relevance": { "type": "number", "description": "0 to 1: how directly the item affects one of your interests" },
+            "matchedInterest": { "type": ["string", "null"], "description": "Which of your interests the item matches best" },
+            "plainSummary": { "type": ["string", "null"], "description": "What the government would actually do, in one plain sentence" },
+            "reason": { "type": ["string", "null"], "description": "Why the item matters (or does not) to you" },
+            "actionType": { "type": ["string", "null"], "description": "vote, public_hearing, consent, discussion, informational or other" },
+            "jurisdiction": { "type": "string" },
+            "jurisdictionName": { "type": "string" },
+            "platform": { "type": "string", "description": "Source platform: legistar or berkeley-eagenda" },
+            "body": { "type": "string", "description": "The council, committee or commission holding the meeting" },
+            "meetingDate": { "type": "string" },
+            "meetingTime": { "type": ["string", "null"] },
+            "section": { "type": ["string", "null"], "description": "Agenda section or matter type, e.g. Consent Calendar" },
+            "itemNumber": { "type": ["string", "null"] },
+            "title": { "type": "string" },
+            "description": { "type": ["string", "null"] },
+            "documentUrl": { "type": ["string", "null"], "description": "Staff report or attachment PDF for this item" },
+            "agendaUrl": { "type": ["string", "null"] },
+            "meetingUrl": { "type": ["string", "null"] },
+            "attachments": { "type": "array" },
+            "scoredBy": { "type": "string", "description": "claude or keywords" }
+        }
+    },
+    "views": {
+        "overview": {
+            "title": "Matches",
+            "transformation": {
+                "fields": ["relevance", "matchedInterest", "plainSummary", "jurisdictionName", "body", "meetingDate", "actionType", "documentUrl"]
+            },
+            "display": {
+                "component": "table",
+                "properties": {
+                    "relevance": { "label": "Relevance", "format": "number" },
+                    "matchedInterest": { "label": "Interest", "format": "text" },
+                    "plainSummary": { "label": "What's happening", "format": "text" },
+                    "jurisdictionName": { "label": "Where", "format": "text" },
+                    "body": { "label": "Body", "format": "text" },
+                    "meetingDate": { "label": "Meeting", "format": "date" },
+                    "actionType": { "label": "Action", "format": "text" },
+                    "documentUrl": { "label": "Source", "format": "link" }
+                }
+            }
+        }
+    }
+}

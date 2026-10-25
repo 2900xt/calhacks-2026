@@ -1,0 +1,83 @@
+{
+    "title": "CivicSignal input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "interests": {
+            "title": "Your interests",
+            "type": "array",
+            "description": "Topics you care about, in plain English. Each agenda item is scored against every interest, e.g. \"Bike lanes and street safety\" or \"New apartments near campus\".",
+            "editor": "stringList",
+            "prefill": [
+                "Bike lanes, traffic safety and street design",
+                "Housing affordability and new apartments near UC Berkeley",
+                "Police and public safety budget"
+            ]
+        },
+        "jurisdictions": {
+            "title": "Jurisdictions",
+            "type": "array",
+            "description": "Which city councils to watch. Berkeley uses its own eAgenda pages; the others are read from the Legistar Web API.",
+            "editor": "select",
+            "items": {
+                "type": "string",
+                "enum": ["berkeley", "oakland", "sanjose", "alameda", "mountainview", "sunnyvaleca"],
+                "enumTitles": ["City of Berkeley", "City of Oakland", "City of San José", "City of Alameda", "City of Mountain View", "City of Sunnyvale"]
+            },
+            "default": ["berkeley", "oakland"],
+            "prefill": ["berkeley", "oakland"]
+        },
+        "extraLegistarClients": {
+            "title": "Other Legistar jurisdictions",
+            "type": "array",
+            "description": "Any other Legistar client slug, the part before .legistar.com (for example \"seattle\" or \"chicago\"). Hundreds of US cities, counties and agencies publish on Legistar.",
+            "editor": "stringList",
+            "default": []
+        },
+        "daysAhead": {
+            "title": "Days ahead",
+            "type": "integer",
+            "description": "How many days of upcoming meetings to scan.",
+            "default": 21,
+            "minimum": 0,
+            "maximum": 90
+        },
+        "daysBack": {
+            "title": "Days back",
+            "type": "integer",
+            "description": "Also include meetings from this many past days, for catching up on recent decisions.",
+            "default": 0,
+            "minimum": 0,
+            "maximum": 60
+        },
+        "maxMeetingsPerJurisdiction": {
+            "title": "Max meetings per jurisdiction",
+            "type": "integer",
+            "description": "Upper bound on meetings read per jurisdiction, which caps run time and cost.",
+            "default": 4,
+            "minimum": 1,
+            "maximum": 20
+        },
+        "minRelevance": {
+            "title": "Minimum relevance",
+            "type": "string",
+            "description": "Only items scoring at or above this relevance (0 to 1) are returned as matches. 0.5 keeps items with a real, if indirect, effect on an interest.",
+            "editor": "textfield",
+            "default": "0.5"
+        },
+        "includeAllItems": {
+            "title": "Include non-matching items",
+            "type": "boolean",
+            "description": "Also write the items below the relevance threshold to the dataset (not charged as matches).",
+            "default": false
+        },
+        "anthropicApiKey": {
+            "title": "Anthropic API key (optional)",
+            "type": "string",
+            "description": "Use your own Anthropic key for Claude scoring. Without a key the Actor uses its configured key, or falls back to keyword matching.",
+            "editor": "textfield",
+            "isSecret": true
+        }
+    },
+    "required": ["interests"]
+}
