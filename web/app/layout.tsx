@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CivicSignal",
+  title: "BeInvolved",
   description: "Know what your city council will decide, before the vote.",
 };
 

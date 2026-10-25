@@ -27,11 +27,11 @@ export async function POST(req: Request) {
 
     const task = await client.tasks().create({
       actId: actor.id,
-      name: `civicsignal-watch-${suffix}`,
+      name: `beinvolved-watch-${suffix}`,
       input: { interests, jurisdictions, daysAhead: cadence === "daily" ? 7 : 14, alertEmail: email },
     });
     const schedule = await client.schedules().create({
-      name: `civicsignal-${suffix}`,
+      name: `beinvolved-${suffix}`,
       cronExpression: when.cron,
       timezone: "America/Los_Angeles",
       isEnabled: true,

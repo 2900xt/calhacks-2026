@@ -107,7 +107,7 @@ export default function Home() {
       <nav className="border-b border-line bg-surface/70 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:px-6">
           <Logo />
-          <span className="font-semibold tracking-tight">CivicSignal</span>
+          <span className="font-semibold tracking-tight">BeInvolved</span>
           <span className="ml-auto hidden rounded-full border border-line px-3 py-1 text-xs text-muted sm:inline">
             Built on <b className="text-foreground">Apify</b> · scored by <b className="text-foreground">Claude</b>
           </span>
@@ -132,7 +132,7 @@ export default function Home() {
               Know what your city will decide, <span className="text-accent">before the vote.</span>
             </h1>
             <p className="mt-4 max-w-xl text-lg text-muted">
-              City councils publish hundreds of agenda items a month across scattered PDFs and portals. CivicSignal
+              City councils publish hundreds of agenda items a month across scattered PDFs and portals. BeInvolved
               reads them all and tells you which ones touch your life.
             </p>
           </div>
@@ -197,7 +197,7 @@ export default function Home() {
               disabled={scanning || !interests.length || !cities.length}
               className="mt-5 w-full rounded-xl bg-foreground px-4 py-3 text-sm font-medium text-background transition hover:opacity-90 disabled:opacity-50"
             >
-              {scanning ? "Running the CivicSignal Actor…" : "Scan upcoming agendas →"}
+              {scanning ? "Running the BeInvolved Actor…" : "Scan upcoming agendas →"}
             </button>
           </div>
         </section>
@@ -322,7 +322,7 @@ export default function Home() {
         <UnderTheHood />
 
         <footer className="mt-14 flex flex-wrap gap-x-6 gap-y-2 border-t border-line pt-6 text-xs text-muted">
-          <span>Agenda data: Legistar Web API and berkeleyca.gov, collected by the CivicSignal Apify Actor.</span>
+          <span>Agenda data: Legistar Web API and berkeleyca.gov, collected by the BeInvolved Apify Actor.</span>
           <span>Relevance is Claude&apos;s judgment. Check the linked source before acting.</span>
         </footer>
       </main>
@@ -541,9 +541,9 @@ function AgentPanel({ interests, cities }: { interests: string[]; cities: string
   return (
     <section className="mt-14 overflow-hidden rounded-3xl border border-line bg-surface">
       <div className="border-b border-line bg-accent-soft/60 px-5 py-4 sm:px-7">
-        <h2 className="text-lg font-semibold">Ask the CivicSignal agent</h2>
+        <h2 className="text-lg font-semibold">Ask the BeInvolved agent</h2>
         <p className="text-sm text-muted">
-          Claude connects to <code className="text-xs">mcp.apify.com</code>, runs the CivicSignal Actor as a tool, and
+          Claude connects to <code className="text-xs">mcp.apify.com</code>, runs the BeInvolved Actor as a tool, and
           opens staff reports with <code className="text-xs">apify/web-fetch</code> to answer.
         </p>
       </div>
@@ -605,11 +605,11 @@ function AgentPanel({ interests, cities }: { interests: string[]; cities: string
 }
 
 function ConnectPanel() {
-  const actor = process.env.NEXT_PUBLIC_APIFY_ACTOR_ID ?? "<username>/civicsignal";
+  const actor = process.env.NEXT_PUBLIC_APIFY_ACTOR_ID ?? "<username>/beinvolved";
   const [user, name] = actor.split("/");
   const endpoints = [
     { label: "Apify MCP server", url: `https://mcp.apify.com?tools=${actor}` },
-    { label: "CivicSignal's own MCP (Standby)", url: `https://${user}--${name}.apify.actor/mcp` },
+    { label: "BeInvolved's own MCP (Standby)", url: `https://${user}--${name}.apify.actor/mcp` },
   ];
   const [copied, setCopied] = useState<string | null>(null);
 
@@ -617,7 +617,7 @@ function ConnectPanel() {
     <div className="rounded-2xl border border-line bg-surface p-5">
       <h3 className="font-semibold">Use it from your own agent</h3>
       <p className="mt-1 text-sm text-muted">
-        CivicSignal is an MCP tool. Add either endpoint to Claude, Cursor or any MCP client.
+        BeInvolved is an MCP tool. Add either endpoint to Claude, Cursor or any MCP client.
       </p>
       <ul className="mt-3 space-y-2">
         {endpoints.map((e) => (

@@ -1,8 +1,8 @@
-# CivicSignal: Local Government Agenda Monitor
+# BeInvolved: Local Government Agenda Monitor
 
-**Tell CivicSignal what you care about. It reads upcoming city council agendas, finds the items that affect you, and explains each one in a plain sentence, with a link to the staff report, before the vote.**
+**Tell BeInvolved what you care about. It reads upcoming city council agendas, finds the items that affect you, and explains each one in a plain sentence, with a link to the staff report, before the vote.**
 
-Local decisions about bike lanes, housing, rent rules and police budgets are published days before each meeting. They're buried in agenda pages and PDFs spread across different platforms. CivicSignal reads them for you.
+Local decisions about bike lanes, housing, rent rules and police budgets are published days before each meeting. They're buried in agenda pages and PDFs spread across different platforms. BeInvolved reads them for you.
 
 ## What it does
 
@@ -63,18 +63,18 @@ The `OUTPUT` key-value record holds `digest` (Markdown), `matchCount`, `itemsSca
 
 ## Use it from an AI agent (MCP)
 
-CivicSignal works as a tool for Claude and other MCP clients through Apify's hosted MCP server:
+BeInvolved works as a tool for Claude and other MCP clients through Apify's hosted MCP server:
 
 ```
-https://mcp.apify.com?tools=<username>/civicsignal
+https://mcp.apify.com?tools=<username>/beinvolved
 ```
 
 An agent can call it whenever someone asks "what's coming up in Berkeley about housing?" and answer with cited items.
 
-CivicSignal also runs in **Standby mode** as its own MCP server, with no cold start:
+BeInvolved also runs in **Standby mode** as its own MCP server, with no cold start:
 
 ```
-https://<username>--civicsignal.apify.actor/mcp
+https://<username>--beinvolved.apify.actor/mcp
 ```
 
 It exposes two tools: `find_agenda_items` (interests, jurisdictions and days ahead in; ranked, cited matches out) and `list_jurisdictions`. The same Standby server answers plain HTTP too: `GET /scan?interests=housing|bike lanes&jurisdictions=berkeley,oakland`.
@@ -88,7 +88,7 @@ Pay per event:
 
 ## Run it on a schedule
 
-Save your input as a Task, set `alertEmail`, and attach a weekly Schedule. Each run hands its digest to Apify's `apify/send-mail` Actor, so new matches arrive in your inbox. The CivicSignal web app sets this up in one click.
+Save your input as a Task, set `alertEmail`, and attach a weekly Schedule. Each run hands its digest to Apify's `apify/send-mail` Actor, so new matches arrive in your inbox. The BeInvolved web app sets this up in one click.
 
 ## Limitations
 

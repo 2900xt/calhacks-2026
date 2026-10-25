@@ -1,4 +1,4 @@
-"""Standby mode: CivicSignal as a long-lived HTTP API and a stateless MCP server.
+"""Standby mode: BeInvolved as a long-lived HTTP API and a stateless MCP server.
 
 - GET  /         readiness probe, or a short description of the API
 - GET  /scan     ?interests=a|b&jurisdictions=berkeley,oakland&daysAhead=21 -> JSON matches
@@ -53,7 +53,7 @@ async def index(request: web.Request) -> web.Response:
     if 'x-apify-container-server-readiness-probe' in request.headers:
         return web.Response(text='ok')
     return web.json_response({
-        'name': 'CivicSignal',
+        'name': 'BeInvolved',
         'endpoints': {'scan': 'GET /scan?interests=a|b&jurisdictions=berkeley,oakland', 'mcp': 'POST /mcp'},
         'jurisdictions': list(PRESETS),
     })
@@ -92,7 +92,7 @@ async def mcp(request: web.Request) -> web.Response:
         return _rpc_result(rid, {
             'protocolVersion': requested if requested in PROTOCOL_VERSIONS else PROTOCOL_VERSIONS[0],
             'capabilities': {'tools': {'listChanged': False}},
-            'serverInfo': {'name': 'civicsignal', 'title': 'CivicSignal', 'version': '1.0.0'},
+            'serverInfo': {'name': 'beinvolved', 'title': 'BeInvolved', 'version': '1.0.0'},
             'instructions': 'Call find_agenda_items with the resident\'s interests to see what their city council will decide soon.',
         })
     if method == 'ping':
@@ -149,6 +149,6 @@ async def serve() -> None:
     await runner.setup()
     port = Actor.configuration.web_server_port
     await web.TCPSite(runner, '0.0.0.0', port).start()
-    Actor.log.info(f'CivicSignal Standby server listening on port {port} (MCP at /mcp)')
+    Actor.log.info(f'BeInvolved Standby server listening on port {port} (MCP at /mcp)')
     while True:  # Standby runs are stopped by the platform when idle.
         await asyncio.sleep(3600)

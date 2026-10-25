@@ -24,7 +24,7 @@ export function toIcs(items: AgendaMatch[]): string {
     meetings.set(key, [...(meetings.get(key) ?? []), item]);
   }
 
-  const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//CivicSignal//Agenda Watch//EN", "CALSCALE:GREGORIAN"];
+  const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//BeInvolved//Agenda Watch//EN", "CALSCALE:GREGORIAN"];
   for (const [key, group] of meetings) {
     const first = group[0];
     const start = parseTime(first.meetingDate, first.meetingTime);
@@ -33,7 +33,7 @@ export function toIcs(items: AgendaMatch[]): string {
       .join("\n");
     lines.push(
       "BEGIN:VEVENT",
-      `UID:${key.replace(/[^a-z0-9]/gi, "-")}@civicsignal`,
+      `UID:${key.replace(/[^a-z0-9]/gi, "-")}@beinvolved`,
       `DTSTAMP:${stamp(new Date())}`,
       ...(start
         ? [`DTSTART:${stamp(start)}`, `DTEND:${stamp(new Date(start.getTime() + 2 * 3_600_000))}`]
@@ -52,7 +52,7 @@ export function downloadIcs(items: AgendaMatch[]) {
   const blob = new Blob([toIcs(items)], { type: "text/calendar" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = "civicsignal-meetings.ics";
+  a.download = "beinvolved-meetings.ics";
   a.click();
   URL.revokeObjectURL(a.href);
 }
