@@ -1,21 +1,23 @@
 @import "tailwindcss";
 
 :root {
-  /* Sequoia Capital palette: cream paper, warm near-black ink, Sequoia green */
-  --background: #fbf7f0;
-  --surface: #fefcf6;
-  --foreground: #1b1917;
-  --muted: #6f6c66;
-  --line: #e4ded2;
+  /* Matches the Stanford Fencing Analytics look (white, gray hairlines), with a civic green accent */
+  --background: #ffffff;
+  --surface: #ffffff;
+  --soft: #fafafa;
+  --foreground: #1a1a1a;
+  --muted: #6b7280;
+  --line: #e5e7eb;
   --accent: #007354;
-  --accent-soft: #e2efe8;
-  --warn: #c74200;
-  --warn-soft: #fbeadf;
+  --accent-soft: #00735414;
+  --warn: #b45309;
+  --warn-soft: #fef3c7;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-surface: var(--surface);
+  --color-soft: var(--soft);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-line: var(--line);
@@ -23,12 +25,13 @@
   --color-accent-soft: var(--accent-soft);
   --color-warn: var(--warn);
   --color-warn-soft: var(--warn-soft);
-  --font-sans: var(--font-space-grotesk);
-  --font-mono: var(--font-fragment-mono);
+  --font-sans: var(--font-mona-sans);
+  --font-serif: var(--font-newsreader);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  font-family: var(--font-mona-sans), -apple-system, "Segoe UI", sans-serif;
 }

@@ -12,13 +12,13 @@ const FEATURES = [
 export function UnderTheHood() {
   return (
     <section className="mt-14">
-      <h2 className="text-2xl font-semibold tracking-tight">Under the hood</h2>
+      <h2 className="font-serif text-2xl font-medium tracking-tight">Under the hood</h2>
       <p className="mt-1 max-w-2xl text-sm text-muted">
         Government agendas are scattered across platforms that were never built to be read together. BeInvolved turns
         them into one stream that agents can call, built entirely on Apify.
       </p>
 
-      <div className="mt-6 overflow-x-auto rounded-3xl border border-line bg-surface p-5 sm:p-7">
+      <div className="mt-6 overflow-x-auto rounded-xl border border-line bg-surface p-5 sm:p-7">
         <svg viewBox="0 0 880 250" className="min-w-[640px] w-full" role="img" aria-label="BeInvolved architecture">
           <defs>
             <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
@@ -57,7 +57,7 @@ export function UnderTheHood() {
 
       <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {FEATURES.map((f) => (
-          <li key={f.name} className="rounded-2xl border border-line bg-surface p-4">
+          <li key={f.name} className="rounded-lg border border-line bg-surface p-4">
             <p className="text-sm font-semibold">{f.name}</p>
             <p className="mt-1 text-xs leading-relaxed text-muted">{f.detail}</p>
           </li>

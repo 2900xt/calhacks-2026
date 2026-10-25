@@ -28,7 +28,7 @@ export default function HowItWorks() {
           <Link href="/" className="text-sm text-accent hover:underline">
             ← Back to BeInvolved
           </Link>
-          <h1 className="mt-4 text-4xl font-semibold tracking-tight">How BeInvolved works</h1>
+          <h1 className="font-serif mt-4 text-4xl font-medium tracking-tight">How BeInvolved works</h1>
           <p className="mt-3 max-w-2xl text-lg text-muted">
             City agendas live on dozens of different platforms. A custom Apify Actor reads them all into one schema,
             Claude explains each item in plain English and scores it against what you care about, and every action
@@ -43,7 +43,7 @@ export default function HowItWorks() {
             ["Claude explains", "Relevance to your interests, plus a one-sentence plain-English summary"],
             ["You act", "Calendar, Claude-drafted public comments, weekly alerts via Apify Schedules"],
           ].map(([title, body], i) => (
-            <li key={title} className="rounded-2xl border border-line bg-surface p-4">
+            <li key={title} className="rounded-lg border border-line bg-surface p-4">
               <p className="flex items-center gap-2 text-sm font-semibold">
                 <span className="grid h-6 w-6 place-items-center rounded-full bg-accent text-xs text-surface">{i + 1}</span>
                 {title}
@@ -73,8 +73,8 @@ function ConnectPanel() {
   const [copied, setCopied] = useState<string | null>(null);
 
   return (
-    <div className="rounded-2xl border border-line bg-surface p-5">
-      <h3 className="font-semibold">Use it from your own agent</h3>
+    <div className="rounded-lg border border-line bg-surface p-5">
+      <h3 className="font-serif font-medium">Use it from your own agent</h3>
       <p className="mt-1 text-sm text-muted">BeInvolved is an MCP tool. Add either endpoint to Claude, Cursor or any MCP client.</p>
       <ul className="mt-3 space-y-2">
         {endpoints.map((e) => (

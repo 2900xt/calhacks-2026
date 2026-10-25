@@ -116,7 +116,7 @@ export default function Home() {
 
       <main className="mx-auto max-w-5xl px-4 pb-16 sm:px-6">
         <header className="py-12 sm:py-16">
-          <h1 className="max-w-3xl text-4xl font-semibold leading-[1.08] tracking-tight sm:text-6xl">
+          <h1 className="font-serif max-w-3xl text-4xl font-medium leading-[1.08] tracking-tight sm:text-6xl">
             Your city decides things every week. <span className="text-accent">Have a say.</span>
           </h1>
           <p className="mt-5 max-w-2xl text-lg text-muted">
@@ -130,7 +130,7 @@ export default function Home() {
           </ol>
         </header>
 
-        <section className="rounded-3xl border border-line bg-surface p-5 shadow-sm sm:p-8">
+        <section className="rounded-xl border border-line bg-surface p-5 sm:p-8">
           <Label n={1}>Where do you live?</Label>
           <div className="mt-3 flex flex-wrap gap-2">
             {JURISDICTIONS.map((j) => (
@@ -173,7 +173,7 @@ export default function Home() {
           <button
             onClick={findWays}
             disabled={scanning || !topics.length || !cities.length}
-            className="mt-8 w-full rounded-2xl bg-accent px-5 py-4 text-base font-semibold text-surface transition hover:opacity-90 disabled:opacity-50 sm:w-auto"
+            className="mt-8 w-full rounded-lg bg-accent px-5 py-4 text-base font-semibold text-surface transition hover:opacity-90 disabled:opacity-50 sm:w-auto"
           >
             {scanning ? LOADING[stage] : "Find ways to get involved →"}
           </button>
@@ -183,7 +183,7 @@ export default function Home() {
         {scanning && !scan && (
           <div className="mt-10 space-y-4">
             {[0, 1].map((i) => (
-              <div key={i} className="h-56 animate-pulse rounded-3xl border border-line bg-surface" />
+              <div key={i} className="h-56 animate-pulse rounded-xl border border-line bg-surface" />
             ))}
           </div>
         )}
@@ -198,7 +198,7 @@ export default function Home() {
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
                 <p className="text-sm font-medium text-accent">Coming up in {cityNames.join(" & ")}</p>
-                <h2 className="mt-1 text-3xl font-semibold tracking-tight">
+                <h2 className="font-serif mt-1 text-3xl font-medium tracking-tight">
                   {items.length === 0
                     ? "Nothing on your topics right now"
                     : `${items.length} decision${items.length === 1 ? "" : "s"} you can weigh in on`}
@@ -223,7 +223,7 @@ export default function Home() {
             {items.length > TOP_N && (
               <button
                 onClick={() => setShowAll(!showAll)}
-                className="mt-5 w-full rounded-2xl border border-dashed border-line py-3 text-sm text-muted hover:border-accent hover:text-foreground"
+                className="mt-5 w-full rounded-lg border border-dashed border-line py-3 text-sm text-muted hover:border-accent hover:text-foreground"
               >
                 {showAll ? "Show fewer" : `Show ${items.length - TOP_N} more`}
               </button>
@@ -235,7 +235,7 @@ export default function Home() {
 
         <AgentSection interests={topics} cities={cities} />
 
-        <section className="mt-16 grid gap-4 rounded-3xl bg-accent-soft p-6 sm:grid-cols-3 sm:p-8">
+        <section className="mt-16 grid gap-4 rounded-xl bg-soft border border-line p-6 sm:grid-cols-3 sm:p-8">
           <Fact title="It's your right" body="California's Brown Act guarantees the public a chance to comment at every city council meeting." />
           <Fact title="Before, not after" body="Agendas are posted days ahead. That window is when a comment can still change a vote." />
           <Fact title="Every word counts" body="Written comments become part of the public record that councilmembers see." />
@@ -290,7 +290,7 @@ function ActionCard({ item, done, onDone }: { item: AgendaMatch; done: Step[]; o
   }
 
   return (
-    <article className="overflow-hidden rounded-3xl border border-line bg-surface shadow-sm">
+    <article className="overflow-hidden rounded-xl border border-line bg-surface">
       <div className="p-5 sm:p-7">
         <div className="flex flex-wrap items-center gap-2 text-xs">
           <span className="rounded-full bg-foreground px-2.5 py-1 font-semibold text-background">
@@ -304,7 +304,7 @@ function ActionCard({ item, done, onDone }: { item: AgendaMatch; done: Step[]; o
             <span className="rounded-full bg-accent-soft px-2.5 py-1 text-accent">{topicLabel(item.matchedInterest)}</span>
           )}
         </div>
-        <h3 className="mt-4 text-xl font-semibold leading-snug tracking-tight">{item.plainSummary ?? item.title}</h3>
+        <h3 className="font-serif mt-4 text-xl font-medium leading-snug tracking-tight">{item.plainSummary ?? item.title}</h3>
         {item.reason && <p className="mt-2 text-[15px] text-muted">{item.reason}</p>}
         <p className="mt-3 text-xs text-muted">
           {item.body} · {when}
@@ -389,7 +389,7 @@ function ActionCard({ item, done, onDone }: { item: AgendaMatch; done: Step[]; o
           </div>
           {err && <p className="text-sm text-warn">{err}</p>}
           {draft && (
-            <div className="rounded-2xl border border-line bg-surface p-4">
+            <div className="rounded-lg border border-line bg-surface p-4">
               <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed">{draft}</pre>
               <p className="mt-3 text-xs text-muted">Edit it so it sounds like you, then send it.</p>
               <div className="mt-3 flex flex-wrap gap-2">
@@ -438,17 +438,17 @@ function WatchSection({ interests, cities, live }: { interests: string[]; cities
   }
 
   return (
-    <section id="alerts" className="mt-16 scroll-mt-6 rounded-3xl border border-line bg-surface p-6 sm:p-8">
+    <section id="alerts" className="mt-16 scroll-mt-6 rounded-xl border border-line bg-surface p-6 sm:p-8">
       <div className="grid gap-6 md:grid-cols-[1fr_1fr] md:items-center">
         <div>
-          <h2 className="text-2xl font-semibold tracking-tight">📬 Never miss a vote on what you care about</h2>
+          <h2 className="font-serif text-2xl font-medium tracking-tight">📬 Never miss a vote on what you care about</h2>
           <p className="mt-2 text-sm text-muted">
             We&apos;ll check your city&apos;s agendas on a schedule and email you the decisions coming up, with the date
             and how to comment.
           </p>
         </div>
         {result ? (
-          <p className="rounded-2xl bg-accent-soft p-4 text-sm font-medium text-accent">
+          <p className="rounded-lg bg-accent-soft p-4 text-sm font-medium text-accent">
             You&apos;re in. We&apos;ll email you {result.label}.
           </p>
         ) : (
@@ -521,8 +521,8 @@ function AgentSection({ interests, cities }: { interests: string[]; cities: stri
   }
 
   return (
-    <section id="ask" className="mt-8 scroll-mt-6 rounded-3xl border border-line bg-surface p-6 sm:p-8">
-      <h2 className="text-2xl font-semibold tracking-tight">💬 Ask about your city</h2>
+    <section id="ask" className="mt-8 scroll-mt-6 rounded-xl border border-line bg-surface p-6 sm:p-8">
+      <h2 className="font-serif text-2xl font-medium tracking-tight">💬 Ask about your city</h2>
       <p className="mt-2 text-sm text-muted">
         Ask in plain English. The assistant reads the latest agendas and staff reports and answers with sources.
       </p>
@@ -580,7 +580,7 @@ function ImpactMeter({ actions }: { actions: number }) {
   const goal = 3;
   const pct = Math.min(100, Math.round((actions / goal) * 100));
   return (
-    <div className="w-full rounded-2xl border border-line bg-surface p-4 sm:w-64">
+    <div className="w-full rounded-lg border border-line bg-surface p-4 sm:w-64">
       <p className="text-xs font-medium text-muted">Your involvement this week</p>
       <p className="mt-1 text-2xl font-semibold tracking-tight">
         {actions} <span className="text-sm font-normal text-muted">action{actions === 1 ? "" : "s"}</span>
@@ -641,7 +641,7 @@ function Chip({ on, onClick, children }: { on: boolean; onClick: () => void; chi
 
 function Pillar({ icon, title, body }: { icon: string; title: string; body: string }) {
   return (
-    <li className="rounded-2xl border border-line bg-surface p-4">
+    <li className="rounded-lg border border-line bg-surface p-4">
       <p className="text-sm font-semibold">
         {icon} {title}
       </p>

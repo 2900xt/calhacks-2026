@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
-import { Fragment_Mono, Space_Grotesk } from "next/font/google";
+import { Mona_Sans, Newsreader } from "next/font/google";
 import "./globals.css";
 
-// Sequoia's site uses Pitch Sans (a licensed Klim typeface) with Fragment Mono; Space Grotesk is the closest free match.
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+// Same pairing as the Stanford Fencing Analytics app: Newsreader headlines, Mona Sans body.
+const monaSans = Mona_Sans({
+  variable: "--font-mona-sans",
   subsets: ["latin"],
 });
 
-const fragmentMono = Fragment_Mono({
-  variable: "--font-fragment-mono",
-  weight: "400",
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
   subsets: ["latin"],
 });
 
@@ -27,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${spaceGrotesk.variable} ${fragmentMono.variable} antialiased`}
+        className={`${monaSans.variable} ${newsreader.variable} antialiased`}
       >
         {children}
       </body>
